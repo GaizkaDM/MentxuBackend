@@ -35,58 +35,62 @@ def init_database(app):
                 print("🔄 PostgreSQL detectado, inicializando tablas...")
         
         if should_init:
-            print("🔄 Base de datos no encontrada. Creándola...")
-            
+            print("🔄 Base de datos no encontrada o tablas faltantes. Creándola...")
             try:
-                from app.models import Admin, Parada
-                
                 # Crear todas las tablas
                 db.create_all()
                 print("✅ Tablas creadas")
+            except Exception as e:
+                print(f"❌ Error al crear tablas: {e}")
+        
+        # SIEMPRE verificar Admin y Paradas (fuera del check inicial de tablas)
+        with app.app_context():
+            try:
+                from app.models import Admin, Parada
                 
-                # Crear admin por defecto
+                # Sincronizar Admin
                 admin_username = os.getenv('ADMIN_USERNAME', 'admin')
                 admin_password = os.getenv('ADMIN_PASSWORD', 'admin123')
                 
-                if not Admin.query.filter_by(username=admin_username).first():
+                admin = Admin.query.filter_by(username=admin_username).first()
+                if not admin:
                     admin = Admin(username=admin_username)
                     admin.set_password(admin_password)
                     db.session.add(admin)
                     print(f"✅ Admin creado: {admin_username}")
+                else:
+                    # Opcional: actualizar password si cambia en variables de entorno
+                    admin.set_password(admin_password)
+                    print(f"✅ Admin verificado/actualizado: {admin_username}")
                 
-                # Crear paradas de Santurtzi
+                # Sincronizar Paradas (Coordenadas correctas de Santurtzi)
                 if Parada.query.count() == 0:
-                    paradas = [
-                        Parada(nombre='Ayuntamiento de Santurtzi (Mentxu)', nombre_corto='Ayuntamiento',
-                               latitud=43.3289, longitud=-3.0323, descripcion='Punto de inicio',
-                               tipo_juego='Sopa de Letras', orden=1),
-                        Parada(nombre='Escultura "El niño y el perro"', nombre_corto='Escultura',
-                               latitud=43.3275, longitud=-3.0310, descripcion='Famosa escultura',
-                               tipo_juego='Diferencias', orden=2),
-                        Parada(nombre='Barco Agurtza', nombre_corto='Barco',
-                               latitud=43.3265, longitud=-3.0295, descripcion='Histórico barco',
-                               tipo_juego='Relacionar', orden=3),
-                        Parada(nombre='Museo Marítimo', nombre_corto='Museo',
-                               latitud=43.3258, longitud=-3.0288, descripcion='Museo marítimo',
-                               tipo_juego='Basura', orden=4),
-                        Parada(nombre='Puerto Pesquero', nombre_corto='Puerto',
-                               latitud=43.3270, longitud=-3.0305, descripcion='Puerto pesquero',
-                               tipo_juego='Pesca', orden=5),
-                        Parada(nombre='Monumento', nombre_corto='Monumento',
-                               latitud=43.3280, longitud=-3.0315, descripcion='Conmemoración',
-                               tipo_juego='Puzzle', orden=6)
+                    paradas_data = [
+                        {'nombre': 'Santurtziko Udala (Mentxu)', 'latitud': 43.328833, 'longitud': -3.032944, 'tipo_juego': 'Sopa de Letras', 'orden': 1},
+                        {'nombre': '"El niño y el perro" eskultura', 'latitud': 43.328833, 'longitud': -3.032306, 'tipo_juego': 'Diferencias', 'orden': 2},
+                        {'nombre': 'Agurtza itsasontzia', 'latitud': 43.327000, 'longitud': -3.023778, 'tipo_juego': 'Relacionar', 'orden': 3},
+                        {'nombre': 'Itsas-museoa', 'latitud': 43.330639, 'longitud': -3.030750, 'tipo_juego': 'Basura', 'orden': 4},
+                        {'nombre': 'Itsas-portua', 'latitud': 43.330417, 'longitud': -3.030722, 'tipo_juego': 'Pesca', 'orden': 5},
+                        {'nombre': '"Monumento niños y niñas de la guerra" eskultura', 'latitud': 43.330500, 'longitud': -3.029917, 'tipo_juego': 'Puzzle', 'orden': 6}
                     ]
-                    for p in paradas:
-                        db.session.add(p)
-                    print(f"✅ {len(paradas)} paradas creadas")
+                    
+                    for p_data in paradas_data:
+                        nueva_parada = Parada(
+                            nombre=p_data['nombre'],
+                            nombre_corto=p_data['nombre'],
+                            latitud=p_data['latitud'],
+                            longitud=p_data['longitud'],
+                            descripcion=f"Parada {p_data['orden']}",
+                            tipo_juego=p_data['tipo_juego'],
+                            orden=p_data['orden']
+                        )
+                        db.session.add(nueva_parada)
+                    print(f"✅ {len(paradas_data)} paradas creadas con coordenadas correctas")
                 
                 db.session.commit()
-                print("✅ Base de datos inicializada correctamente")
             except Exception as e:
-                print(f"❌ Error al inicializar BD: {e}")
+                print(f"❌ Error al sincronizar datos iniciales: {e}")
                 db.session.rollback()
-        else:
-            print("✅ Base de datos ya existe")
 
 def create_app(config_name='default'):
     """Factory para crear la aplicación Flask"""
