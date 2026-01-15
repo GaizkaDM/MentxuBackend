@@ -12,9 +12,29 @@ login_manager = LoginManager()
 def init_database(app):
     """Inicializa la base de datos si no existe"""
     with app.app_context():
-        db_path = app.config['SQLALCHEMY_DATABASE_URI'].replace('sqlite:///', '')
+        db_uri = app.config['SQLALCHEMY_DATABASE_URI']
         
-        if not os.path.exists(db_path):
+        # Detectar si es SQLite o PostgreSQL
+        is_sqlite = db_uri.startswith('sqlite:///')
+        is_postgres = 'postgresql' in db_uri or 'postgres' in db_uri
+        
+        should_init = False
+        
+        if is_sqlite:
+            # Para SQLite, verificar si el archivo existe
+            db_path = db_uri.replace('sqlite:///', '')
+            should_init = not os.path.exists(db_path)
+        elif is_postgres:
+            # Para PostgreSQL, verificar si las tablas existen
+            from app.models import Admin
+            try:
+                Admin.query.first()
+                print("✅ Base de datos PostgreSQL ya tiene tablas")
+            except:
+                should_init = True
+                print("🔄 PostgreSQL detectado, inicializando tablas...")
+        
+        if should_init:
             print("🔄 Base de datos no encontrada. Creándola...")
             
             try:
