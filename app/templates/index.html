@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}MentxuApp - Descubre Santurtzi{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <h1 class="display-3 fw-bold text-white mb-4">
+                    <i class="bi bi-compass-fill text-warning"></i> MentxuApp
+                </h1>
+                <p class="lead text-white mb-4">
+                    Descubre Santurtzi a través de un recorrido interactivo con juegos y desafíos.
+                    Explora el puerto, la historia y la cultura de esta vibrante ciudad costera.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-warning btn-lg">
+                        <i class="bi bi-box-arrow-in-right"></i> Acceder al Panel
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="stats-card">
+                    <h3 class="text-white mb-4">Estadísticas en Vivo</h3>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="stat-item">
+                                <i class="bi bi-people-fill"></i>
+                                <h2>{{ total_usuarios }}</h2>
+                                <p>Usuarios Registrados</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="stat-item">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <h2>{{ total_paradas }}</h2>
+                                <p>Paradas del Recorrido</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="stat-item">
+                                <i class="bi bi-trophy-fill"></i>
+                                <h2>{{ total_completados }}</h2>
+                                <p>Desafíos Completados</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container my-5 py-5">
+    <h2 class="text-center mb-5">Características de la App</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <i class="bi bi-map-fill feature-icon"></i>
+                <h4>Recorrido Guiado</h4>
+                <p>Sigue un itinerario por las 6 paradas más emblemáticas de Santurtzi.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <i class="bi bi-controller feature-icon"></i>
+                <h4>Mini-Juegos</h4>
+                <p>Cada parada incluye un juego educativo único y divertido.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <i class="bi bi-star-fill feature-icon"></i>
+                <h4>Progreso</h4>
+                <p>Completa desafíos y desbloquea nuevas paradas en tu aventura.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

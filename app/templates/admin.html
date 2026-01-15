@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Administración - MentxuApp{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <h1 class="mb-4">
+        <i class="bi bi-gear"></i> Panel de Administración
+    </h1>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-maritime text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Gestión de Paradas</h5>
+            <button class="btn btn-light btn-sm" disabled>
+                <i class="bi bi-plus-circle"></i> Agregar Parada (Próximamente)
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Orden</th>
+                            <th>Nombre</th>
+                            <th>Coordenadas</th>
+                            <th>Tipo de Juego</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for parada in paradas %}
+                        <tr>
+                            <td>
+                                <span class="badge bg-maritime rounded-circle"
+                                    style="width: 35px; height: 35px; display: inline-flex; align-items: center; justify-content: center;">
+                                    {{ parada.orden }}
+                                </span>
+                            </td>
+                            <td>
+                                <strong>{{ parada.nombre_corto or parada.nombre }}</strong>
+                                {% if parada.descripcion %}
+                                <br><small class="text-muted">{{ parada.descripcion[:100] }}...</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <small>
+                                    <i class="bi bi-geo-alt"></i>
+                                    {{ "%.5f"|format(parada.latitud) }}, {{ "%.5f"|format(parada.longitud) }}
+                                </small>
+                            </td>
+                            <td>
+                                <span class="badge bg-info">
+                                    <i class="bi bi-controller"></i>
+                                    {{ parada.tipo_juego or 'Sin tipo' }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-outline-primary" disabled>
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-outline-danger" disabled>
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-5">
+                                No hay paradas configuradas
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de API Documentation -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">
+                <i class="bi bi-code-square"></i> Referencia API REST
+            </h5>
+        </div>
+        <div class="card-body">
+            <h6>Endpoints Disponibles:</h6>
+            <div class="accordion" id="apiAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#paradas">
+                            <span class="badge bg-success me-2">GET</span> Paradas
+                        </button>
+                    </h2>
+                    <div id="paradas" class="accordion-collapse collapse show" data-bs-parent="#apiAccordion">
+                        <div class="accordion-body">
+                            <code>GET /api/paradas</code> - Obtener todas las paradas<br>
+                            <code>GET /api/paradas/&lt;id&gt;</code> - Obtener una parada específica<br>
+                            <code>GET /api/paradas/&lt;id&gt;/estadisticas</code> - Estadísticas de una parada
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#usuarios">
+                            <span class="badge bg-success me-2">GET</span> <span
+                                class="badge bg-primary me-2">POST</span> Usuarios
+                        </button>
+                    </h2>
+                    <div id="usuarios" class="accordion-collapse collapse" data-bs-parent="#apiAccordion">
+                        <div class="accordion-body">
+                            <code>GET /api/usuarios</code> - Listar todos los usuarios<br>
+                            <code>POST /api/usuarios/registro</code> - Registrar nuevo usuario<br>
+                            <code>GET /api/usuarios/&lt;id&gt;/progreso</code> - Progreso de un usuario
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#progreso">
+                            <span class="badge bg-primary me-2">POST</span> Progreso
+                        </button>
+                    </h2>
+                    <div id="progreso" class="accordion-collapse collapse" data-bs-parent="#apiAccordion">
+                        <div class="accordion-body">
+                            <code>POST /api/progreso/completar</code> - Marcar parada como completada<br>
+                            <code>GET /api/estadisticas</code> - Estadísticas generales
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

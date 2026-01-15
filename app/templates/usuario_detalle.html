@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}{{ usuario.nombre }} {{ usuario.apellido }} - MentxuApp{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('web.dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('web.usuarios') }}">Usuarios</a></li>
+            <li class="breadcrumb-item active">{{ usuario.nombre }} {{ usuario.apellido }}</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <!-- Información del Usuario -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-maritime text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-person-circle"></i> Información del Usuario
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <h4>{{ usuario.nombre }} {{ usuario.apellido }}</h4>
+                    <hr>
+                    <p class="mb-2">
+                        <strong><i class="bi bi-hash"></i> ID:</strong> {{ usuario.id }}
+                    </p>
+                    <p class="mb-2">
+                        <strong><i class="bi bi-calendar"></i> Registro:</strong><br>
+                        {{ usuario.fecha_registro.strftime('%d/%m/%Y %H:%M') }}
+                    </p>
+                    <p class="mb-0">
+                        <strong><i class="bi bi-phone"></i> Device ID:</strong><br>
+                        <code style="font-size: 0.8rem; word-break: break-all;">
+                            {{ usuario.device_id if usuario.device_id else 'N/A' }}
+                        </code>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progreso del Usuario -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-maritime text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-graph-up"></i> Progreso en el Recorrido
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% for progreso in progresos %}
+                    <div class="progress-item mb-3 p-3 border rounded">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="mb-0">
+                                <span class="badge bg-maritime rounded-circle me-2">{{ progreso.parada.orden }}</span>
+                                {{ progreso.parada.nombre_corto or progreso.parada.nombre }}
+                            </h6>
+                            {% if progreso.estado == 'completada' %}
+                            <span class="badge bg-success">
+                                <i class="bi bi-check-circle-fill"></i> Completada
+                            </span>
+                            {% elif progreso.estado == 'activa' %}
+                            <span class="badge bg-warning">
+                                <i class="bi bi-play-circle-fill"></i> En Progreso
+                            </span>
+                            {% else %}
+                            <span class="badge bg-secondary">
+                                <i class="bi bi-lock-fill"></i> Bloqueada
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        <small class="text-muted d-block mb-2">
+                            <i class="bi bi-controller"></i> {{ progreso.parada.tipo_juego or 'Juego' }}
+                        </small>
+
+                        {% if progreso.estado == 'completada' %}
+                        <div class="row g-2 mt-2">
+                            <div class="col-md-4">
+                                <small>
+                                    <i class="bi bi-calendar-check"></i>
+                                    {{ progreso.fecha_completado.strftime('%d/%m/%Y') if progreso.fecha_completado else
+                                    'N/A' }}
+                                </small>
+                            </div>
+                            <div class="col-md-4">
+                                <small>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    Puntuación: {{ progreso.puntuacion or 0 }}
+                                </small>
+                            </div>
+                            <div class="col-md-4">
+                                <small>
+                                    <i class="bi bi-clock"></i>
+                                    {% if progreso.tiempo_empleado %}
+                                    {{ (progreso.tiempo_empleado // 60) }}m {{ (progreso.tiempo_empleado % 60) }}s
+                                    {% else %}
+                                    N/A
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

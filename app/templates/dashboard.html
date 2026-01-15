@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - MentxuApp{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <h1 class="mb-4">
+        <i class="bi bi-speedometer2"></i> Dashboard
+    </h1>
+
+    <!-- Estadísticas Generales -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="stat-card bg-primary">
+                <div class="stat-card-body">
+                    <i class="bi bi-people-fill"></i>
+                    <h3>{{ total_usuarios }}</h3>
+                    <p>Usuarios Registrados</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card bg-success">
+                <div class="stat-card-body">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <h3>{{ progreso_completado }}</h3>
+                    <p>Paradas Completadas</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card bg-warning">
+                <div class="stat-card-body">
+                    <i class="bi bi-play-circle-fill"></i>
+                    <h3>{{ progreso_activo }}</h3>
+                    <p>En Progreso</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card bg-info">
+                <div class="stat-card-body">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <h3>{{ total_paradas }}</h3>
+                    <p>Total Paradas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Gráfico de Paradas -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-maritime text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-bar-chart-fill"></i> Paradas Completadas
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="paradasChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Usuarios Recientes -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-maritime text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-clock-history"></i> Últimos Registros
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for usuario in usuarios_recientes %}
+                        <a href="{{ url_for('web.usuario_detalle', id=usuario.id) }}"
+                            class="list-group-item list-group-item-action">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="bi bi-person-circle text-primary"></i>
+                                    <strong>{{ usuario.nombre }} {{ usuario.apellido }}</strong>
+                                </div>
+                                <small class="text-muted">
+                                    {{ usuario.fecha_registro.strftime('%d/%m/%y') }}
+                                </small>
+                            </div>
+                        </a>
+                        {% else %}
+                        <p class="text-muted text-center py-3">No hay usuarios registrados aún</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Datos para el gráfico
+    const paradasData = {
+        labels: [
+            {% for nombre, total in stats_paradas %}
+    '{{ nombre }}',
+        {% endfor %}
+        ],
+    datasets: [{
+        label: 'Completadas',
+        data: [
+            {% for nombre, total in stats_paradas %}
+    {{ total }},
+    {% endfor %}
+    ],
+        backgroundColor: [
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(255, 206, 86, 0.7)',
+            'rgba(153, 102, 255, 0.7)',
+            'rgba(255, 159, 64, 0.7)',
+            'rgba(255, 99, 132, 0.7)'
+        ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)'
+            ],
+                borderWidth: 2
+        }]
+    };
+
+    const config = {
+        type: 'bar',
+        data: paradasData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    };
+
+    new Chart(document.getElementById('paradasChart'), config);
+</script>
+{% endblock %}

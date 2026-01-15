@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Mapa - MentxuApp{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <h1 class="mb-4">
+        <i class="bi bi-map"></i> Mapa de Paradas
+    </h1>
+
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="card shadow-sm">
+                <div class="card-body p-0">
+                    <div id="map" style="height: 600px; width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-maritime text-white">
+                    <h5 class="mb-0">Paradas del Recorrido</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        {% for parada in paradas %}
+                        <div class="list-group-item">
+                            <div class="d-flex align-items-start">
+                                <span class="badge bg-maritime rounded-circle me-2"
+                                    style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                    {{ parada.orden }}
+                                </span>
+                                <div>
+                                    <h6 class="mb-1">{{ parada.nombre_corto or parada.nombre }}</h6>
+                                    <small class="text-muted d-block">
+                                        <i class="bi bi-controller"></i> {{ parada.tipo_juego or 'Juego' }}
+                                    </small>
+                                    <small class="text-muted">
+                                        <i class="bi bi-geo-alt"></i>
+                                        {{ "%.4f"|format(parada.latitud) }}, {{ "%.4f"|format(parada.longitud) }}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function initMap() {
+        // Centro en Santurtzi
+        const santurtzi = { lat: 43.329, lng: -3.029 };
+
+        const map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: santurtzi,
+            mapTypeControl: false
+        });
+
+        // Paradas
+        const paradas = [
+            {% for parada in paradas %}
+    {
+        position: { lat: { { parada.latitud } }, lng: { { parada.longitud } } },
+        title: "{{ parada.orden }}. {{ parada.nombre_corto or parada.nombre }}",
+            descripcion: "{{ parada.descripcion or 'Sin descripción' }}",
+                tipo: "{{ parada.tipo_juego or 'Juego' }}",
+                    orden: { { parada.orden } }
+    },
+    {% endfor %}
+        ];
+
+    // Crear marcadores
+    paradas.forEach((parada, index) => {
+        const marker = new google.maps.Marker({
+            position: parada.position,
+            map: map,
+            title: parada.title,
+            label: {
+                text: String(parada.orden),
+                color: 'white',
+                fontWeight: 'bold'
+            },
+            animation: google.maps.Animation.DROP
+        });
+
+        const infowindow = new google.maps.InfoWindow({
+            content: `
+                    <div style="padding: 10px;">
+                        <h6><strong>${parada.title}</strong></h6>
+                        <p class="mb-1"><small>${parada.descripcion}</small></p>
+                        <p class="mb-0"><i class="bi bi-controller"></i> <strong>Tipo:</strong> ${parada.tipo}</p>
+                    </div>
+                `
+        });
+
+        marker.addListener('click', () => {
+            infowindow.open(map, marker);
+        });
+    });
+
+    // Crear polilínea conectando las paradas
+    const path = paradas.map(p => p.position);
+    const polyline = new google.maps.Polyline({
+        path: path,
+        geodesic: true,
+        strokeColor: '#0066CC',
+        strokeOpacity: 0.7,
+        strokeWeight: 3
+    });
+    polyline.setMap(map);
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
+</script>
+{% endblock %}
