@@ -77,6 +77,7 @@
     {% endfor %}
         ];
 
+
     // Crear marcadores
     paradas.forEach((parada, index) => {
         const marker = new google.maps.Marker({
@@ -105,6 +106,7 @@
             infowindow.open(map, marker);
         });
     });
+
 
     // Crear polilínea conectando las paradas
     const path = paradas.map(p => p.position);

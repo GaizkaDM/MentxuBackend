@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, current_app
+from flask import Blueprint, render_template, current_app, request
 from flask_login import login_required
 from app import db
 from app.models import Usuario, Parada, Progreso
