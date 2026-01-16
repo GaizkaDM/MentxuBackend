@@ -40,7 +40,7 @@ class Usuario(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     apellido = db.Column(db.String(100), nullable=False)
     fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
-    device_id = db.Column(db.String(200), unique=True)  # Identificador único del dispositivo
+    device_id = db.Column(db.String(200))  # Identificador del dispositivo (no único para permitir múltiples perfiles)
     
     # Relación con progreso
     progresos = db.relationship('Progreso', backref='usuario', lazy=True, cascade='all, delete-orphan')
