@@ -32,18 +32,36 @@ def registrar_usuario():
     if 'nombre' not in data or 'apellido' not in data:
         return jsonify({'error': 'Nombre y apellido son requeridos'}), 400
     
-    # Crear siempre un usuario nuevo (permitir múltiples usuarios por dispositivo)
-    usuario = Usuario(
-        nombre=data['nombre'],
-        apellido=data['apellido'],
-        device_id=data.get('device_id')
-    )
-    db.session.add(usuario)
-    db.session.flush() # Para obtener el ID
+    # Lógica Inteligente: buscar si ya existe este usuario exacto en este dispositivo
+    nombre = data.get('nombre')
+    apellido = data.get('apellido')
+    device_id = data.get('device_id')
+    
+    usuario = Usuario.query.filter_by(
+        nombre=nombre, 
+        apellido=apellido, 
+        device_id=device_id
+    ).first()
+    
+    if not usuario:
+        # Si no existe, lo creamos
+        print(f"🆕 Creando nuevo usuario: {nombre}")
+        usuario = Usuario(
+            nombre=nombre,
+            apellido=apellido,
+            device_id=device_id
+        )
+        db.session.add(usuario)
+        db.session.flush()
+    else:
+        print(f"♻️ Recuperando usuario existente: {nombre}")
     
     try:
-        # Inicializar progreso para el nuevo usuario
-        print(f"🔄 Inicializando progreso para nuevo usuario {usuario.id}...")
+        # Inicializar progreso solo si no tiene (por si se reseteó la BD)
+        progresos_existentes = Progreso.query.filter_by(usuario_id=usuario.id).count()
+        
+        if progresos_existentes == 0:
+            print(f"🔄 Inicializando progreso para usuario {usuario.id}...")
             paradas = Parada.query.order_by(Parada.orden).all()
             for parada in paradas:
                 estado = 'activa' if parada.orden == 1 else 'bloqueada'
@@ -55,7 +73,7 @@ def registrar_usuario():
                 )
                 db.session.add(progreso)
             db.session.commit()
-            print(f"✅ Progreso creado para usuario {usuario.id}")
+            print(f"✅ Progreso verificado/creado para usuario {usuario.id}")
         
         return jsonify({
             'mensaje': 'Usuario procesado correctamente',
@@ -64,6 +82,7 @@ def registrar_usuario():
         
     except Exception as e:
         db.session.rollback()
+        print(f"❌ Error en registro: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 
