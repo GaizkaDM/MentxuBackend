@@ -32,44 +32,35 @@ def registrar_usuario():
     if 'nombre' not in data or 'apellido' not in data:
         return jsonify({'error': 'Nombre y apellido son requeridos'}), 400
     
-    # Verificar si ya existe el device_id
-    device_id = data.get('device_id')
-    if device_id:
-        usuario_existente = Usuario.query.filter_by(device_id=device_id).first()
-        if usuario_existente:
-            return jsonify({
-                'mensaje': 'Usuario ya registrado',
-                'usuario': usuario_existente.to_dict()
-            }), 200
-    
-    # Crear nuevo usuario
-    nuevo_usuario = Usuario(
+    # Crear siempre un usuario nuevo (permitir múltiples usuarios por dispositivo)
+    usuario = Usuario(
         nombre=data['nombre'],
         apellido=data['apellido'],
-        device_id=device_id
+        device_id=data.get('device_id')
     )
+    db.session.add(usuario)
+    db.session.flush() # Para obtener el ID
     
     try:
-        db.session.add(nuevo_usuario)
-        db.session.flush()  # Para obtener el ID antes de commit
+        # Inicializar progreso para el nuevo usuario
+        print(f"🔄 Inicializando progreso para nuevo usuario {usuario.id}...")
+            paradas = Parada.query.order_by(Parada.orden).all()
+            for parada in paradas:
+                estado = 'activa' if parada.orden == 1 else 'bloqueada'
+                progreso = Progreso(
+                    usuario_id=usuario.id,
+                    parada_id=parada.id,
+                    estado=estado,
+                    fecha_inicio=datetime.utcnow() if estado == 'activa' else None
+                )
+                db.session.add(progreso)
+            db.session.commit()
+            print(f"✅ Progreso creado para usuario {usuario.id}")
         
-        # Inicializar progreso con todas las paradas
-        paradas = Parada.query.order_by(Parada.orden).all()
-        for parada in paradas:
-            estado = 'activa' if parada.orden == 1 else 'bloqueada'
-            progreso = Progreso(
-                usuario_id=nuevo_usuario.id,
-                parada_id=parada.id,
-                estado=estado,
-                fecha_inicio=datetime.utcnow() if estado == 'activa' else None
-            )
-            db.session.add(progreso)
-        
-        db.session.commit()
         return jsonify({
-            'mensaje': 'Usuario registrado correctamente',
-            'usuario': nuevo_usuario.to_dict()
-        }), 201
+            'mensaje': 'Usuario procesado correctamente',
+            'usuario': usuario.to_dict()
+        }), 200
         
     except Exception as e:
         db.session.rollback()
