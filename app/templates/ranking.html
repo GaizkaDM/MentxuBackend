@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Ranking de Alumnos - MentxuApp{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h1 class="h2"><i class="bi bi-trophy text-warning"></i> Ranking Clasificatorio</h1>
+            <p class="text-muted">Lista de alumnos ordenados por puntuación total obtenida en los mini-juegos.</p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="px-4 py-3" style="width: 100px;">Posición</th>
+                            <th class="py-3">Alumno</th>
+                            <th class="py-3 text-center">Paradas Completadas</th>
+                            <th class="py-3 text-end px-4">Puntuación Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if ranking %}
+                        {% for row in ranking %}
+                        <tr>
+                            <td class="px-4">
+                                {% if loop.index == 1 %}
+                                <span class="badge bg-warning text-dark rounded-pill p-2 px-3">
+                                    <i class="bi bi-award-fill"></i> 1º
+                                </span>
+                                {% elif loop.index == 2 %}
+                                <span class="badge bg-secondary rounded-pill p-2 px-3">
+                                    <i class="bi bi-award-fill"></i> 2º
+                                </span>
+                                {% elif loop.index == 3 %}
+                                <span class="badge bg-bronze rounded-pill p-2 px-3 text-white"
+                                    style="background-color: #cd7f32;">
+                                    <i class="bi bi-award-fill"></i> 3º
+                                </span>
+                                {% else %}
+                                <span class="ms-2 fw-bold text-muted">{{ loop.index }}º</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-sm me-3 bg-maritime text-white rounded-circle d-flex align-items-center justify-content-center"
+                                        style="width: 32px; height: 32px;">
+                                        {{ row.nombre[0] }}{{ row.apellido[0] }}
+                                    </div>
+                                    <div>
+                                        <a href="{{ url_for('web.usuario_detalle', id=row.id) }}"
+                                            class="text-decoration-none fw-bold text-dark">
+                                            {{ row.nombre }} {{ row.apellido }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2">
+                                    {{ row.paradas_completadas }} / 6 paradas
+                                </span>
+                            </td>
+                            <td class="text-end px-4">
+                                <span class="h5 mb-0 fw-bold text-maritime">{{
+                                    "{:,}".format(row.puntuacion_total).replace(',', '.') }}</span>
+                                <small class="text-muted ms-1">pts</small>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center py-5 text-muted">
+                                <i class="bi bi-info-circle h2 d-block mb-3"></i>
+                                Todavía no hay puntuaciones registradas. ¡Anima a los alumnos a completar las paradas!
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -89,3 +89,21 @@ def admin():
     """Panel de administración para gestionar paradas"""
     paradas = Parada.query.order_by(Parada.orden).all()
     return render_template('admin.html', paradas=paradas)
+
+
+@web_bp.route('/ranking')
+@login_required
+def ranking():
+    """Ranking de alumnos por puntuación total"""
+    ranking_data = db.session.query(
+        Usuario.id,
+        Usuario.nombre,
+        Usuario.apellido,
+        func.sum(Progreso.puntuacion).label('puntuacion_total'),
+        func.count(Progreso.id).label('paradas_completadas')
+    ).join(Progreso).filter(Progreso.estado == 'completada')\
+     .group_by(Usuario.id, Usuario.nombre, Usuario.apellido)\
+     .order_by(func.sum(Progreso.puntuacion).desc())\
+     .all()
+    
+    return render_template('ranking.html', ranking=ranking_data)
