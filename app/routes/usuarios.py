@@ -98,6 +98,36 @@ def obtener_progreso_usuario(id):
     }), 200
 
 
+@usuarios_bp.route('/ranking', methods=['GET'])
+def obtener_ranking():
+    """Obtener el ranking de usuarios basado en la puntuación total"""
+    from sqlalchemy import func
+    
+    # Obtenemos la suma de puntuaciones de paradas completadas por cada usuario
+    ranking = db.session.query(
+        Usuario.id,
+        Usuario.nombre,
+        Usuario.apellido,
+        func.sum(Progreso.puntuacion).label('puntuacion_total'),
+        func.count(Progreso.id).label('paradas_completadas')
+    ).join(Progreso).filter(Progreso.estado == 'completada')\
+     .group_by(Usuario.id, Usuario.nombre, Usuario.apellido)\
+     .order_by(func.sum(Progreso.puntuacion).desc())\
+     .limit(100).all()
+    
+    resultado = []
+    for pos, row in enumerate(ranking, 1):
+        resultado.append({
+            'posicion': pos,
+            'usuario_id': row.id,
+            'nombre': f"{row.nombre} {row.apellido}",
+            'puntuacion_total': int(row.puntuacion_total or 0),
+            'paradas_completadas': row.paradas_completadas
+        })
+    
+    return jsonify(resultado), 200
+
+
 @usuarios_bp.route('/usuarios/<int:id>', methods=['DELETE'])
 def eliminar_usuario(id):
     """Eliminar un usuario (solo para administración)"""
