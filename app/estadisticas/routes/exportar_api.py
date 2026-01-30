@@ -42,7 +42,10 @@ def exportar_sesiones():
             headers={'Content-Disposition': f'attachment; filename={exporter.get_nombre_archivo_completo()}'}
         )
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        import traceback
+        print(f"Error en exportar_sesiones: {e}")
+        print(traceback.format_exc())
+        return jsonify({'error': str(e), 'tipo': type(e).__name__}), 500
 
 
 @exportar_api_bp.route('/intentos', methods=['POST'])
