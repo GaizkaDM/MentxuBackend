@@ -146,10 +146,12 @@ class Sesion(EstadisticaBase):
     # Relación con Usuario
     # -----------------------------
     
+    # Nota: La relación se define con primaryjoin explícito porque
+    # usuario_id está definido en la clase padre EstadisticaBase
     usuario = db.relationship(
         'Usuario',
-        backref=db.backref('sesiones', lazy='dynamic', cascade='all, delete-orphan'),
-        foreign_keys=[EstadisticaBase.usuario_id]
+        backref=db.backref('sesiones', lazy='dynamic'),
+        primaryjoin='Sesion.usuario_id == Usuario.id'
     )
     
     # -----------------------------

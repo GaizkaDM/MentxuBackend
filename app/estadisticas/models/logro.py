@@ -495,7 +495,8 @@ class LogroUsuario(EstadisticaBase):
     
     usuario = db.relationship(
         'Usuario',
-        backref=db.backref('logros_desbloqueados', lazy='dynamic')
+        backref=db.backref('logros_desbloqueados', lazy='dynamic'),
+        primaryjoin='LogroUsuario.usuario_id == Usuario.id'
     )
     
     # -----------------------------

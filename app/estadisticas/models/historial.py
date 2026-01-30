@@ -155,12 +155,14 @@ class HistorialIntento(EstadisticaBase):
     
     usuario = db.relationship(
         'Usuario',
-        backref=db.backref('intentos', lazy='dynamic', cascade='all, delete-orphan')
+        backref=db.backref('intentos', lazy='dynamic'),
+        primaryjoin='HistorialIntento.usuario_id == Usuario.id'
     )
     
     parada = db.relationship(
         'Parada',
-        backref=db.backref('intentos', lazy='dynamic')
+        backref=db.backref('intentos', lazy='dynamic'),
+        primaryjoin='HistorialIntento.parada_id == Parada.id'
     )
     
     # -----------------------------
