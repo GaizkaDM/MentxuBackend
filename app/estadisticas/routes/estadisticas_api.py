@@ -17,6 +17,45 @@ from datetime import datetime, timedelta
 estadisticas_api_bp = Blueprint('estadisticas_api', __name__, url_prefix='/api/stats')
 
 
+@estadisticas_api_bp.route('/diagnostico', methods=['GET'])
+def diagnostico():
+    """Endpoint de diagnóstico para verificar estado de las tablas."""
+    from app import db
+    from sqlalchemy import inspect
+    
+    try:
+        inspector = inspect(db.engine)
+        tablas_existentes = inspector.get_table_names()
+        
+        tablas_estadisticas = ['sesion', 'logro', 'logro_usuario', 'historial_intento']
+        estado_tablas = {t: t in tablas_existentes for t in tablas_estadisticas}
+        
+        return jsonify({
+            'estado': 'ok',
+            'tablas_sistema': tablas_existentes[:20],  # Primeras 20
+            'tablas_estadisticas': estado_tablas,
+            'todas_existen': all(estado_tablas.values())
+        }), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@estadisticas_api_bp.route('/crear-tablas', methods=['POST'])
+def crear_tablas():
+    """Fuerza la creación de tablas de estadísticas."""
+    from app import db
+    from ..models import Sesion, Logro, LogroUsuario, HistorialIntento
+    
+    try:
+        db.create_all()
+        return jsonify({
+            'mensaje': 'Tablas creadas correctamente',
+            'tablas': ['sesion', 'logro', 'logro_usuario', 'historial_intento']
+        }), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 @estadisticas_api_bp.route('/general', methods=['GET'])
 def estadisticas_generales():
     """
