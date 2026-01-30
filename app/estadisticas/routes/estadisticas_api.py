@@ -286,7 +286,10 @@ def listar_sesiones():
         }), 200
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        import traceback
+        print(f"Error en listar_sesiones: {e}")
+        print(traceback.format_exc())
+        return jsonify({'error': str(e), 'tipo': type(e).__name__}), 500
 
 
 @estadisticas_api_bp.route('/sesiones', methods=['POST'])

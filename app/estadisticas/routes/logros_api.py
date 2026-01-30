@@ -251,10 +251,11 @@ def verificar_logros(usuario_id: int):
         stats['puntuacion_perfecta'] = perfectas
         
         # Paradas rápidas (menos de 60 segundos)
+        from ..models import ResultadoIntento
         paradas_rapidas = HistorialIntento.query.filter(
             HistorialIntento.usuario_id == usuario_id,
             HistorialIntento.tiempo_segundos <= 60,
-            HistorialIntento.resultado == 'exito'
+            HistorialIntento.resultado == ResultadoIntento.EXITO
         ).count()
         stats['paradas_rapidas'] = paradas_rapidas
         
