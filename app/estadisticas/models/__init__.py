@@ -11,9 +11,9 @@
 # ==============================================================================
 
 from .base import BaseModel, TimestampMixin, DictSerializableMixin
-from .sesion import Sesion
+from .sesion import Sesion, TipoDispositivo, EstadoSesion
 from .logro import Logro, LogroUsuario, TipoLogro
-from .historial import HistorialIntento
+from .historial import HistorialIntento, ResultadoIntento, TipoActividad
 
 __all__ = [
     # Clases base
@@ -23,8 +23,12 @@ __all__ = [
     
     # Modelos de datos
     'Sesion',
+    'TipoDispositivo',
+    'EstadoSesion',
     'Logro',
     'LogroUsuario',
     'TipoLogro',
     'HistorialIntento',
+    'ResultadoIntento',
+    'TipoActividad',
 ]
