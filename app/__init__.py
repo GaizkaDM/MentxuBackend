@@ -129,4 +129,12 @@ def create_app(config_name='default'):
     app.register_blueprint(usuarios_bp, url_prefix='/api')
     app.register_blueprint(progreso_bp, url_prefix='/api')
     
+    # Inicializar módulo de estadísticas
+    try:
+        from app.estadisticas import init_estadisticas
+        init_estadisticas(app, db)
+        print("✅ Módulo de estadísticas cargado")
+    except ImportError as e:
+        print(f"⚠️ Módulo de estadísticas no disponible: {e}")
+    
     return app

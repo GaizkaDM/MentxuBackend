@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}📥 Exportar Datos{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a
+                    href="{{ url_for('estadisticas.dashboard_estadisticas.index') }}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Exportar</li>
+        </ol>
+    </nav>
+
+    <h1 class="h3 mb-4">📥 Exportar Datos</h1>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">👥 Exportar Usuarios</h5>
+                </div>
+                <div class="card-body">
+                    <form id="formUsuarios" class="mb-3">
+                        <div class="mb-3">
+                            <label class="form-label">Formato</label>
+                            <select class="form-select" name="formato">
+                                <option value="csv">CSV</option>
+                                <option value="json">JSON</option>
+                                <option value="excel">Excel</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-download"></i> Descargar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">📱 Exportar Sesiones</h5>
+                </div>
+                <div class="card-body">
+                    <form id="formSesiones" class="mb-3">
+                        <div class="mb-3">
+                            <label class="form-label">Formato</label>
+                            <select class="form-select" name="formato">
+                                <option value="csv">CSV</option>
+                                <option value="json">JSON</option>
+                                <option value="excel">Excel</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="form-label">Desde</label>
+                                <input type="date" class="form-control" name="fecha_inicio">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label">Hasta</label>
+                                <input type="date" class="form-control" name="fecha_fin">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">
+                            <i class="bi bi-download"></i> Descargar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">🎮 Exportar Historial de Intentos</h5>
+                </div>
+                <div class="card-body">
+                    <form id="formIntentos">
+                        <div class="mb-3">
+                            <label class="form-label">Formato</label>
+                            <select class="form-select" name="formato">
+                                <option value="csv">CSV</option>
+                                <option value="json">JSON</option>
+                                <option value="excel">Excel</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-download"></i> Descargar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function exportar(endpoint, data) {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            const blob = await response.blob();
+            const disposition = response.headers.get('Content-Disposition');
+            const filename = disposition ? disposition.split('filename=')[1] : 'export.csv';
+
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = filename;
+            a.click();
+        } else {
+            alert('Error al exportar');
+        }
+    }
+
+    document.getElementById('formUsuarios').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        exportar('/estadisticas/api/exportar/usuarios', {
+            formato: formData.get('formato')
+        });
+    });
+
+    document.getElementById('formSesiones').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        exportar('/estadisticas/api/exportar/sesiones', {
+            formato: formData.get('formato'),
+            filtros: {
+                fecha_inicio: formData.get('fecha_inicio') || null,
+                fecha_fin: formData.get('fecha_fin') || null
+            }
+        });
+    });
+
+    document.getElementById('formIntentos').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        exportar('/estadisticas/api/exportar/intentos', {
+            formato: formData.get('formato')
+        });
+    });
+</script>
+{% endblock %}

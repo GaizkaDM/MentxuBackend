@@ -24,6 +24,7 @@ def index():
 @login_required
 def dashboard():
     """Panel de control principal (requiere login)"""
+    from datetime import datetime, timedelta
     
     # Estadísticas generales
     total_usuarios = Usuario.query.count()
@@ -42,13 +43,55 @@ def dashboard():
         Progreso.estado == 'completada'
     ).group_by(Parada.id).all()
     
+    # ========== ESTADÍSTICAS AVANZADAS ==========
+    sesiones_hoy = 0
+    logros_desbloqueados = 0
+    total_intentos = 0
+    ultimos_7_dias = []
+    
+    try:
+        from app.estadisticas.models import Sesion, LogroUsuario, HistorialIntento
+        
+        # Sesiones de hoy
+        sesiones_hoy = Sesion.query.filter(
+            func.date(Sesion.fecha_inicio) == datetime.utcnow().date()
+        ).count()
+        
+        # Total logros desbloqueados
+        logros_desbloqueados = LogroUsuario.query.filter(
+            LogroUsuario.progreso >= 100
+        ).count()
+        
+        # Total intentos
+        total_intentos = HistorialIntento.query.count()
+        
+        # Sesiones últimos 7 días (para gráfico)
+        for i in range(6, -1, -1):
+            fecha = datetime.utcnow().date() - timedelta(days=i)
+            count = Sesion.query.filter(
+                func.date(Sesion.fecha_inicio) == fecha
+            ).count()
+            ultimos_7_dias.append({
+                'fecha': fecha.strftime('%d/%m'),
+                'sesiones': count
+            })
+    except ImportError:
+        # Módulo de estadísticas no disponible
+        for i in range(7):
+            ultimos_7_dias.append({'fecha': '', 'sesiones': 0})
+    
     return render_template('dashboard.html',
                          total_usuarios=total_usuarios,
                          total_paradas=total_paradas,
                          progreso_completado=progreso_completado,
                          progreso_activo=progreso_activo,
                          usuarios_recientes=usuarios_recientes,
-                         stats_paradas=stats_paradas)
+                         stats_paradas=stats_paradas,
+                         # Nuevas estadísticas
+                         sesiones_hoy=sesiones_hoy,
+                         logros_desbloqueados=logros_desbloqueados,
+                         total_intentos=total_intentos,
+                         ultimos_7_dias=ultimos_7_dias)
 
 
 @web_bp.route('/mapa')

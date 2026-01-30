@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}🎮 Estadísticas de Actividades{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a
+                    href="{{ url_for('estadisticas.dashboard_estadisticas.index') }}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Actividades</li>
+        </ol>
+    </nav>
+
+    <h1 class="h3 mb-4">🎮 Estadísticas de Actividades</h1>
+
+    <div class="row g-4">
+        {% for item in paradas %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">{{ item.parada.orden }}. {{ item.parada.nombre_corto or item.parada.nombre }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-3">
+                        <strong>Tipo:</strong> {{ item.parada.tipo_juego or 'N/A' }}
+                    </p>
+
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <div class="h4 mb-0">{{ item.estadisticas.total_intentos }}</div>
+                            <small class="text-muted">Intentos</small>
+                        </div>
+                        <div class="col-4">
+                            <div class="h4 mb-0">{{ "%.1f"|format(item.estadisticas.tasa_exito) }}%</div>
+                            <small class="text-muted">Éxito</small>
+                        </div>
+                        <div class="col-4">
+                            <div class="h4 mb-0">{{ item.estadisticas.usuarios_unicos }}</div>
+                            <small class="text-muted">Usuarios</small>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <strong>{{ "%.1f"|format(item.estadisticas.puntuacion_promedio) }}</strong>
+                            <br><small class="text-muted">Puntuación Media</small>
+                        </div>
+                        <div class="col-6">
+                            <strong>{{ (item.estadisticas.tiempo_promedio_segundos // 60)|int }}m {{
+                                (item.estadisticas.tiempo_promedio_segundos % 60)|int }}s</strong>
+                            <br><small class="text-muted">Tiempo Medio</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">No hay paradas configuradas</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
