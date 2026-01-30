@@ -56,6 +56,50 @@ def crear_tablas():
         return jsonify({'error': str(e)}), 500
 
 
+@estadisticas_api_bp.route('/reset-datos', methods=['POST'])
+def reset_datos():
+    """
+    ⚠️ PELIGRO: Borra TODOS los datos de usuarios y estadísticas.
+    BORRAR ESTE ENDPOINT DESPUÉS DE USARLO.
+    
+    Body JSON opcional:
+        - confirmar: debe ser "BORRAR_TODO" para ejecutar
+    """
+    from app import db
+    from app.models import Usuario, Progreso
+    from ..models import Sesion, Logro, LogroUsuario, HistorialIntento
+    
+    try:
+        data = request.get_json() or {}
+        
+        # Requiere confirmación para evitar borrados accidentales
+        if data.get('confirmar') != 'BORRAR_TODO':
+            return jsonify({
+                'error': 'Debes enviar {"confirmar": "BORRAR_TODO"} para confirmar',
+                'advertencia': '⚠️ Esto borrará TODOS los datos de usuarios y estadísticas'
+            }), 400
+        
+        # Borrar en orden para respetar foreign keys
+        deleted = {}
+        deleted['historial_intento'] = HistorialIntento.query.delete()
+        deleted['logro_usuario'] = LogroUsuario.query.delete()
+        deleted['sesiones'] = Sesion.query.delete()
+        deleted['progreso'] = Progreso.query.delete()
+        deleted['usuarios'] = Usuario.query.delete()
+        
+        db.session.commit()
+        
+        return jsonify({
+            'mensaje': '✅ Todos los datos borrados correctamente',
+            'registros_eliminados': deleted,
+            'advertencia': '⚠️ BORRA ESTE ENDPOINT del código por seguridad'
+        }), 200
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
+
 @estadisticas_api_bp.route('/general', methods=['GET'])
 def estadisticas_generales():
     """
