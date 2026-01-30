@@ -288,9 +288,15 @@ def verificar_logros(usuario_id: int):
                     progreso=100
                 )
                 
+                # Formato compatible con Android
                 nuevos_desbloqueados.append({
-                    'logro': logro.to_dict(),
-                    'puntos': logro.puntos
+                    'id': logro.id,
+                    'nombre': logro.nombre,
+                    'descripcion': logro.descripcion,
+                    'tipo': logro.tipo.value if logro.tipo else None,
+                    'puntos': logro.puntos,
+                    'icono': logro.icono,
+                    'color': logro.color
                 })
         
         # Calcular puntos totales ganados
@@ -298,7 +304,9 @@ def verificar_logros(usuario_id: int):
         
         return jsonify({
             'usuario_id': usuario_id,
-            'nuevos_desbloqueados': nuevos_desbloqueados,
+            'nuevos_logros': nuevos_desbloqueados,  # Compatible con Android DTO
+            'nuevos_desbloqueados': nuevos_desbloqueados,  # Mantener compatibilidad
+            'total_verificados': len(Logro.query.filter_by(activo=True).all()),
             'cantidad': len(nuevos_desbloqueados),
             'puntos_ganados': puntos_ganados,
             'estadisticas_actuales': stats
