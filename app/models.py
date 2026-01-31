@@ -42,6 +42,10 @@ class Usuario(db.Model):
     fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
     device_id = db.Column(db.String(200))  # Identificador del dispositivo (no único para permitir múltiples perfiles)
     
+    # Sistema de identificación visual para niños
+    avatar = db.Column(db.String(50), default='perro')  # perro, gato, conejo, zorro, oso, panda, leon, unicornio
+    color_favorito = db.Column(db.String(20), default='azul')  # rojo, azul, verde, amarillo, morado, naranja, rosa
+    
     # Relación con progreso
     progresos = db.relationship('Progreso', backref='usuario', lazy=True, cascade='all, delete-orphan')
     
@@ -55,7 +59,9 @@ class Usuario(db.Model):
             'nombre': self.nombre,
             'apellido': self.apellido,
             'fecha_registro': self.fecha_registro.isoformat() if self.fecha_registro else None,
-            'device_id': self.device_id
+            'device_id': self.device_id,
+            'avatar': self.avatar,
+            'color_favorito': self.color_favorito
         }
 
 

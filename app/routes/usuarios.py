@@ -32,29 +32,49 @@ def registrar_usuario():
     if 'nombre' not in data or 'apellido' not in data:
         return jsonify({'error': 'Nombre y apellido son requeridos'}), 400
     
-    # Lógica Inteligente: buscar si ya existe este usuario exacto en este dispositivo
+    # Obtener datos del usuario
     nombre = data.get('nombre')
     apellido = data.get('apellido')
     device_id = data.get('device_id')
+    avatar = data.get('avatar', 'perro')  # Valor por defecto
+    color_favorito = data.get('color_favorito', 'azul')  # Valor por defecto
     
+    # Validar avatar y color
+    avatares_validos = ['perro', 'gato', 'conejo', 'zorro', 'oso', 'panda', 'leon', 'unicornio']
+    colores_validos = ['rojo', 'azul', 'verde', 'amarillo', 'morado', 'naranja', 'rosa']
+    
+    if avatar not in avatares_validos:
+        avatar = 'perro'
+    if color_favorito not in colores_validos:
+        color_favorito = 'azul'
+    
+    # Lógica Inteligente: buscar si ya existe este usuario exacto
+    # La combinación nombre + apellido + avatar + color identifica al usuario
     usuario = Usuario.query.filter_by(
         nombre=nombre, 
-        apellido=apellido, 
-        device_id=device_id
+        apellido=apellido,
+        avatar=avatar,
+        color_favorito=color_favorito
     ).first()
     
     if not usuario:
         # Si no existe, lo creamos
-        print(f"🆕 Creando nuevo usuario: {nombre}")
+        print(f"🆕 Creando nuevo usuario: {nombre} ({avatar}, {color_favorito})")
         usuario = Usuario(
             nombre=nombre,
             apellido=apellido,
-            device_id=device_id
+            device_id=device_id,
+            avatar=avatar,
+            color_favorito=color_favorito
         )
         db.session.add(usuario)
         db.session.flush()
     else:
-        print(f"♻️ Recuperando usuario existente: {nombre}")
+        # Actualizar el device_id si cambió (usuario recuperado en otro dispositivo)
+        if usuario.device_id != device_id:
+            usuario.device_id = device_id
+            print(f"📱 Actualizando device_id para usuario {nombre}")
+        print(f"♻️ Recuperando usuario existente: {nombre} ({avatar}, {color_favorito})")
     
     try:
         # Inicializar progreso solo si no tiene (por si se reseteó la BD)
@@ -108,10 +128,12 @@ def obtener_ranking():
         Usuario.id,
         Usuario.nombre,
         Usuario.apellido,
+        Usuario.avatar,
+        Usuario.color_favorito,
         func.sum(Progreso.puntuacion).label('puntuacion_total'),
         func.count(Progreso.id).label('paradas_completadas')
     ).join(Progreso).filter(Progreso.estado == 'completada')\
-     .group_by(Usuario.id, Usuario.nombre, Usuario.apellido)\
+     .group_by(Usuario.id, Usuario.nombre, Usuario.apellido, Usuario.avatar, Usuario.color_favorito)\
      .order_by(func.sum(Progreso.puntuacion).desc())\
      .limit(100).all()
     
@@ -121,6 +143,8 @@ def obtener_ranking():
             'posicion': pos,
             'usuario_id': row.id,
             'nombre': f"{row.nombre} {row.apellido}",
+            'avatar': row.avatar,
+            'color_favorito': row.color_favorito,
             'puntuacion_total': int(row.puntuacion_total or 0),
             'paradas_completadas': row.paradas_completadas
         })
