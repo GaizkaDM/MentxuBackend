@@ -40,11 +40,16 @@ def registrar_usuario():
     color_favorito = data.get('color_favorito', 'azul')  # Valor por defecto
     
     # Validar avatar y color
-    avatares_validos = ['perro', 'gato', 'conejo', 'zorro', 'oso', 'panda', 'leon', 'unicornio']
+    avatares_validos = [
+        'mentxu_default', 'mentxu_bombera', 'mentxu_mecanica', 
+        'mentxu_medica', 'mentxu_policia', 'mentxu_profesor',
+        # Mantener los antiguos por compatibilidad
+        'perro', 'gato', 'conejo', 'zorro', 'oso', 'panda', 'leon', 'unicornio'
+    ]
     colores_validos = ['rojo', 'azul', 'verde', 'amarillo', 'morado', 'naranja', 'rosa']
     
     if avatar not in avatares_validos:
-        avatar = 'perro'
+        avatar = 'mentxu_default'
     if color_favorito not in colores_validos:
         color_favorito = 'azul'
     

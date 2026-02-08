@@ -47,15 +47,38 @@
                             </td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="avatar-sm me-3 bg-maritime text-white rounded-circle d-flex align-items-center justify-content-center"
-                                        style="width: 32px; height: 32px;">
-                                        {{ row.nombre[0] }}{{ row.apellido[0] }}
+                                    <!-- Avatar con emoji y color del usuario -->
+                                    <div class="avatar-badge me-3"
+                                        style="
+                                        width: 40px; 
+                                        height: 40px; 
+                                        border-radius: 50%; 
+                                        display: flex; 
+                                        align-items: center; 
+                                        justify-content: center;
+                                        font-size: 22px;
+                                        border: 3px solid {{ {'rojo': '#E74C3C', 'azul': '#3498DB', 'verde': '#2ECC71', 'amarillo': '#F1C40F', 'morado': '#9B59B6', 'naranja': '#E67E22', 'rosa': '#FF69B4'}.get(row.color_favorito, '#3498DB') }};
+                                        background: {{ {'rojo': '#FDEAE9', 'azul': '#E8F4FD', 'verde': '#E8F8F2', 'amarillo': '#FEF9E7', 'morado': '#F4ECF7', 'naranja': '#FDF2E9', 'rosa': '#FFF0F5'}.get(row.color_favorito, '#E8F4FD') }};">
+                                        {% set avatar_emojis = {
+                                        'mentxu_default': '🐦',
+                                        'mentxu_bombera': '🚒',
+                                        'mentxu_mecanica': '🔧',
+                                        'mentxu_medica': '🏥',
+                                        'mentxu_policia': '👮',
+                                        'mentxu_profesor': '📚',
+                                        'perro': '🐕', 'gato': '🐱', 'conejo': '🐰', 'zorro': '🦊',
+                                        'oso': '🐻', 'panda': '🐼', 'leon': '🦁', 'unicornio': '🦄'
+                                        } %}
+                                        {{ avatar_emojis.get(row.avatar, '🐦') }}
                                     </div>
                                     <div>
                                         <a href="{{ url_for('web.usuario_detalle', id=row.id) }}"
                                             class="text-decoration-none fw-bold text-dark">
                                             {{ row.nombre }} {{ row.apellido }}
                                         </a>
+                                        <small class="d-block text-muted" style="font-size: 0.75em;">
+                                            {{ row.avatar | replace('mentxu_', '') | replace('_', ' ') | title }}
+                                        </small>
                                     </div>
                                 </div>
                             </td>

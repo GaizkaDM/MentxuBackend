@@ -43,8 +43,8 @@ class Usuario(db.Model):
     device_id = db.Column(db.String(200))  # Identificador del dispositivo (no único para permitir múltiples perfiles)
     
     # Sistema de identificación visual para niños
-    avatar = db.Column(db.String(50), default='perro')  # perro, gato, conejo, zorro, oso, panda, leon, unicornio
-    color_favorito = db.Column(db.String(20), default='azul')  # rojo, azul, verde, amarillo, morado, naranja, rosa
+    avatar = db.Column(db.String(50), default='mentxu_default')  # mentxu_default, mentxu_bombera, mentxu_mecanica, mentxu_medica, mentxu_policia, mentxu_profesor
+    color_favorito = db.Column(db.String(20), default='azul')  # rojo, azul, verde, amarillo, morado, naranja
     
     # Relación con progreso
     progresos = db.relationship('Progreso', backref='usuario', lazy=True, cascade='all, delete-orphan')
