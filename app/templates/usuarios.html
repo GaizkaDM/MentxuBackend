@@ -29,8 +29,35 @@
                         <tr>
                             <td><strong>#{{ usuario.id }}</strong></td>
                             <td>
-                                <i class="bi bi-person-circle text-primary"></i>
-                                {{ usuario.nombre }} {{ usuario.apellido }}
+                                <div class="d-flex align-items-center">
+                                    {% set avatar_images = {
+                                    'mentxu_default': 'mentxu_victoria.png',
+                                    'mentxu_bombera': 'mentxu_bombera.png',
+                                    'mentxu_mecanica': 'mentxu_mecanica.png',
+                                    'mentxu_medica': 'mentxu_medica.png',
+                                    'mentxu_policia': 'mentxu_policia.png',
+                                    'mentxu_profesor': 'mentxu_profesor.png',
+                                    'perro': 'mentxu_victoria.png',
+                                    'gato': 'mentxu_victoria.png',
+                                    'conejo': 'mentxu_victoria.png'
+                                    } %}
+                                    <div class="avatar-badge me-2"
+                                        style="
+                                        width: 38px; 
+                                        height: 38px; 
+                                        border-radius: 50%; 
+                                        overflow: hidden;
+                                        border: 3px solid {{ {'rojo': '#E74C3C', 'azul': '#3498DB', 'verde': '#2ECC71', 'amarillo': '#F1C40F', 'morado': '#9B59B6', 'naranja': '#E67E22', 'rosa': '#FF69B4'}.get(usuario.color_favorito, '#3498DB') }};">
+                                        <img src="{{ url_for('static', filename='avatars/' + avatar_images.get(usuario.avatar, 'mentxu_victoria.png')) }}"
+                                            alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div>
+                                        <strong>{{ usuario.nombre }} {{ usuario.apellido }}</strong>
+                                        <small class="d-block text-muted" style="font-size: 0.75em;">
+                                            {{ usuario.avatar | replace('mentxu_', '') | replace('_', ' ') | title }}
+                                        </small>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 <small>
