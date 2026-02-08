@@ -68,7 +68,7 @@ def registrar_usuario():
             color_favorito=color_favorito
         )
         db.session.add(usuario)
-        db.session.flush()  # Para obtener el ID
+        db.session.flush()
     else:
         # Actualizar el device_id si cambió (usuario recuperado en otro dispositivo)
         if usuario.device_id != device_id:
@@ -92,10 +92,8 @@ def registrar_usuario():
                     fecha_inicio=datetime.utcnow() if estado == 'activa' else None
                 )
                 db.session.add(progreso)
-            print(f"✅ Progreso creado para usuario {usuario.id}")
-        
-        # Commit siempre al final
-        db.session.commit()
+            db.session.commit()
+            print(f"✅ Progreso verificado/creado para usuario {usuario.id}")
         
         return jsonify({
             'mensaje': 'Usuario procesado correctamente',
