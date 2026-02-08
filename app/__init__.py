@@ -43,6 +43,39 @@ def init_database(app):
             except Exception as e:
                 print(f"❌ Error al crear tablas: {e}")
         
+        # MIGRACIÓN: Verificar y añadir columnas avatar y color_favorito si no existen
+        if is_postgres:
+            try:
+                from sqlalchemy import text
+                # Verificar si existe la columna avatar
+                result = db.session.execute(text(
+                    "SELECT column_name FROM information_schema.columns "
+                    "WHERE table_name = 'usuarios' AND column_name = 'avatar'"
+                ))
+                if result.fetchone() is None:
+                    print("🔄 Añadiendo columna 'avatar' a tabla usuarios...")
+                    db.session.execute(text(
+                        "ALTER TABLE usuarios ADD COLUMN avatar VARCHAR(50) DEFAULT 'perro'"
+                    ))
+                    db.session.commit()
+                    print("✅ Columna 'avatar' añadida")
+                
+                # Verificar si existe la columna color_favorito
+                result = db.session.execute(text(
+                    "SELECT column_name FROM information_schema.columns "
+                    "WHERE table_name = 'usuarios' AND column_name = 'color_favorito'"
+                ))
+                if result.fetchone() is None:
+                    print("🔄 Añadiendo columna 'color_favorito' a tabla usuarios...")
+                    db.session.execute(text(
+                        "ALTER TABLE usuarios ADD COLUMN color_favorito VARCHAR(20) DEFAULT 'azul'"
+                    ))
+                    db.session.commit()
+                    print("✅ Columna 'color_favorito' añadida")
+            except Exception as e:
+                print(f"⚠️ Error en migración de columnas: {e}")
+                db.session.rollback()
+        
         # SIEMPRE verificar Admin y Paradas (fuera del check inicial de tablas)
         with app.app_context():
             try:
