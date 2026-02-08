@@ -1,300 +1,122 @@
-# 📊 Módulo de Estadísticas - DIdaktikAPP / MentxuApp
+# 📊 Módulo de Estadísticas y Analytics - MentxuApp Backend
 
-## 🎯 Descripción
+Este módulo implementa el sistema integral de **seguimiento, gamificación y análisis de datos** para la plataforma educativa MentxuApp. Proporciona herramientas para rastrear el progreso de los usuarios, gestionar logros y visualizar métricas clave a través de un dashboard interactivo.
 
-Este módulo implementa un **sistema avanzado de estadísticas educativas** para la aplicación MentxuApp, cumpliendo con los requerimientos del **Nivel Avanzado (10/10)** de la asignatura de Python.
+## 🚀 Funcionalidades Principales
 
-## ✅ Características Implementadas
+### 📈 Seguimiento y Analytics
+*   **Registro de Sesiones**: Monitoreo de inicios de sesión, duración y dispositivos utilizados.
+*   **Historial de Actividades**: Traza detallada de cada intento en los minijuegos (puntuación, tiempo, resultado).
+*   **Progreso del Usuario**: Seguimiento del avance por las paradas y actividades del recorrido.
 
-### 1. POO Compleja
-- ✅ **Herencia**: `EstadisticaBase` → `BaseModel` → `db.Model`
-- ✅ **Polimorfismo**: Métodos `to_dict()`, `get_estadisticas_usuario()` sobrescrito en cada modelo
-- ✅ **Encapsulación**: Campos privados, propiedades, validaciones
-- ✅ **Mixins**: `TimestampMixin`, `DictSerializableMixin`
-- ✅ **Patrones de diseño**:
-  - Factory Method (ExporterFactory)
-  - Template Method (BaseExporter)
-  - Strategy (Exportadores)
+### 🏆 Gamificación (Sistema de Logros)
+*   **Motor de Logros**: Sistema flexible para otorgar insignias basado en diferentes criterios (velocidad, precisión, exploración, constancia).
+*   **Verificación Automática**: Evaluación de reglas en tiempo real al completar actividades.
+*   **Tipos de Logros**:
+    *   *Velocidad*: Completar tareas en tiempo récord.
+    *   *Precisión*: Obtener puntuaciones perfectas.
+    *   *Exploración*: Descubrir nuevas paradas.
+    *   *Constancia*: Uso continuado de la aplicación.
 
-### 2. Exportación Múltiple con Filtros
-- ✅ **CSV**: Con BOM para Excel, delimitador configurable
-- ✅ **JSON**: Con metadatos, resumen estadístico
-- ✅ **Excel**: Múltiples hojas, estilos, anchos automáticos
-- ✅ **Filtros avanzados**: Por fecha, usuario, parada, tipo, estado
+### 💾 Exportación de Datos
+Herramientas para extraer la información del sistema en formatos estándar para análisis externo:
+*   **Formatos soportados**: CSV, JSON y Excel (.xlsx).
+*   **Filtrado Avanzado**: Capacidad de filtrar exportaciones por rangos de fecha, tipos de usuario o actividades específicas.
 
-### 3. ORM con SQLAlchemy
-- ✅ **Modelos relacionados**: Usuario → Sesiones, Intentos, Logros
-- ✅ **Relaciones**: OneToMany, ManyToMany con tabla intermedia
-- ✅ **Queries complejas**: Agregaciones, joins, subqueries
-- ✅ **Carga de datos**: Importación desde CSV/JSON
-
-### 4. API REST Completa con Flask
-- ✅ **Blueprints modulares**
-- ✅ **CRUD completo** para cada entidad
-- ✅ **Filtros y paginación**
-- ✅ **Endpoints de estadísticas y ranking**
-
-### 5. Visualización Interactiva
-- ✅ **Dashboard con Chart.js**
-- ✅ **Gráficos de líneas, donuts**
-- ✅ **Tablas con paginación**
-- ✅ **Pantallas separadas por categoría**
+### 🖥️ Dashboard de Administración
+Interfaz web integrada en el backend para visualizar los datos:
+*   **Gráficos Interactivos**: Visualización de tendencias, usuarios activos y tasas de completitud (usando Chart.js).
+*   **Tablas de Datos**: Vistas detalladas de usuarios y actividades con paginación.
+*   **Centro de Exportación**: Interfaz gráfica para generar y descargar informes.
 
 ---
 
-## 📁 Estructura del Módulo
+## 🛠️ Arquitectura y Tecnologías
+
+El módulo está construido siguiendo una arquitectura modular dentro de Flask:
+
+*   **Lenguaje**: Python 3.x
+*   **Framework Web**: Flask (organizado mediante `Blueprints`)
+*   **ORM**: SQLAlchemy (con modelos relacionales complejos y mixins)
+*   **Procesamiento de Datos**: Pandas & OpenPyXL (para generación de reportes)
+*   **Frontend**: Jinja2 Templates + Bootstrap 5 + Chart.js
+
+### Patrones de Diseño Aplicados
+*   **Factory Method**: Para la instanciación de exportadores de datos.
+*   **Template Method**: En la estructura base de los generadores de reportes.
+*   **Strategy**: Para la implementación de diferentes reglas de logros.
+
+---
+
+## 📂 Estructura del Módulo
 
 ```
 app/estadisticas/
-├── __init__.py                 # Blueprint principal
-├── models/                     # Modelos ORM (SQLAlchemy)
-│   ├── __init__.py
-│   ├── base.py                 # Clases base con mixins
-│   ├── sesion.py               # Registro de login/logout
-│   ├── logro.py                # Sistema de achievements
-│   └── historial.py            # Historial de intentos
-├── exporters/                  # Exportación de datos
-│   ├── __init__.py
-│   ├── base_exporter.py        # Factory + Template Method
+├── models/               # Modelos de Base de Datos
+│   ├── sesion.py         # Registro de accesos
+│   ├── logro.py          # Definición y asignación de logros
+│   └── historial.py      # Intentos y resultados de juegos
+├── services/             # Lógica de Negocio
+│   ├── estadisticas.py   # Cálculos y agregaciones
+│   └── logros.py         # Motor de verificación de reglas
+├── exporters/            # Motores de Exportación
 │   ├── csv_exporter.py
 │   ├── json_exporter.py
 │   └── excel_exporter.py
-├── routes/                     # API REST
-│   ├── __init__.py
-│   ├── estadisticas_api.py     # Endpoints de estadísticas
-│   ├── logros_api.py           # Endpoints de logros
-│   ├── exportar_api.py         # Endpoints de exportación
-│   └── dashboard.py            # Rutas del dashboard web
-└── templates/estadisticas/     # Templates HTML
-    ├── dashboard.html
-    ├── usuarios.html
-    ├── actividades.html
-    └── exportar.html
+├── routes/               # API Endpoints
+│   ├── api.py            # API REST para la app móvil
+│   └── dashboard.py      # Controladores de la interfaz web
+└── templates/            # Vistas HTML del Dashboard
 ```
 
 ---
 
-## 🚀 Instalación
+## 🔌 API Reference
 
-### 1. Instalar dependencias adicionales
+El módulo expone una API REST para la comunicación con la aplicación Android:
 
-```bash
-pip install -r requirements.txt
-```
-
-Nuevas dependencias añadidas:
-- `openpyxl` - Exportación a Excel
-- `pandas` - Análisis de datos (opcional)
-
-### 2. El módulo se inicializa automáticamente
-
-Al arrancar la aplicación Flask, el módulo se registra automáticamente:
-
-```python
-# En app/__init__.py
-from app.estadisticas import init_estadisticas
-init_estadisticas(app, db)
-```
-
-### 3. Crear tablas de estadísticas
-
-```bash
-python -c "from run import app; from app import db; app.app_context().push(); db.create_all()"
-```
-
----
-
-## 📡 Endpoints API
-
-### Estadísticas Generales
-```
-GET  /estadisticas/api/stats/general           # Stats globales
-GET  /estadisticas/api/stats/usuarios/<id>     # Stats de usuario
-GET  /estadisticas/api/stats/paradas/<id>      # Stats de parada
-GET  /estadisticas/api/stats/ranking           # Ranking de usuarios
-```
-
-### Sesiones
-```
-GET   /estadisticas/api/stats/sesiones         # Listar sesiones
-POST  /estadisticas/api/stats/sesiones         # Registrar sesión
-POST  /estadisticas/api/stats/sesiones/<id>/cerrar  # Cerrar sesión
-```
-
-### Historial de Intentos
-```
-GET   /estadisticas/api/stats/intentos         # Listar intentos
-POST  /estadisticas/api/stats/intentos         # Registrar intento
-GET   /estadisticas/api/stats/evolucion/<id>   # Evolución de usuario
-```
+### Estadísticas
+*   `POST /api/stats/sesiones`: Registrar inicio de sesión.
+*   `POST /api/stats/intentos`: Registrar resultado de una actividad.
+*   `GET /api/stats/usuario/<id>`: Obtener resumen de estadísticas de un usuario.
 
 ### Logros
-```
-GET   /estadisticas/api/logros                 # Listar logros
-GET   /estadisticas/api/logros/<id>            # Detalle de logro
-GET   /estadisticas/api/logros/usuario/<id>    # Logros de usuario
-POST  /estadisticas/api/logros/desbloquear     # Desbloquear logro
-POST  /estadisticas/api/logros/verificar/<id>  # Verificar logros
-POST  /estadisticas/api/logros/inicializar     # Crear logros predefinidos
-```
+*   `GET /api/logros`: Listar todos los logros disponibles.
+*   `GET /api/logros/usuario/<id>`: Listar logros desbloqueados por un usuario.
+*   `POST /api/logros/verificar/<id>`: Forzar verificación de logros (sync).
 
 ### Exportación
-```
-GET   /estadisticas/api/exportar/formatos      # Formatos disponibles
-POST  /estadisticas/api/exportar/sesiones      # Exportar sesiones
-POST  /estadisticas/api/exportar/intentos      # Exportar intentos
-POST  /estadisticas/api/exportar/usuarios      # Exportar usuarios
-```
+*   `POST /api/exportar/datos`: Endpoint para generar reportes programáticamente.
 
 ---
 
-## 🖥️ Dashboard Web
+## ⚙️ Configuración e Instalación
 
-Accede al dashboard en: `http://localhost:5000/estadisticas/dashboard/`
+Este módulo es parte del backend de MentxuApp y se inicializa automáticamente con la aplicación principal.
 
-### Pantallas disponibles:
-1. **Dashboard principal** - Vista general con gráficos
-2. **Estadísticas de Usuarios** - Tabla paginada
-3. **Estadísticas de Actividades** - Por parada
-4. **Exportar Datos** - Formularios de exportación
-
----
-
-## 📊 Ejemplos de Uso
-
-### Registrar una sesión desde la app Android
-
-```kotlin
-// Retrofit
-val request = mapOf(
-    "usuario_id" to userId,
-    "tipo_dispositivo" to "android",
-    "device_info" to "Samsung Galaxy S21"
-)
-api.post("/estadisticas/api/stats/sesiones", request)
+### Dependencias
+Asegúrate de que `requirements.txt` incluya:
+```txt
+pandas>=1.3.0
+openpyxl>=3.0.0
+# ... otras dependencias base
 ```
 
-### Registrar un intento de actividad
+### Inicialización de Datos
+Para cargar los logros predefinidos en la base de datos (si es la primera vez que se despliega):
 
-```kotlin
-val intento = mapOf(
-    "usuario_id" to userId,
-    "parada_id" to paradaId,
-    "tipo_actividad" to "sopa_letras",
-    "puntuacion" to 85,
-    "tiempo_segundos" to 45,
-    "resultado" to "exito"
-)
-api.post("/estadisticas/api/stats/intentos", intento)
-```
-
-### Verificar logros después de completar actividad
-
-```kotlin
-api.post("/estadisticas/api/logros/verificar/$userId")
-```
-
-### Exportar datos con filtros
-
-```python
-import requests
-
-response = requests.post(
-    "http://localhost:5000/estadisticas/api/exportar/sesiones",
-    json={
-        "formato": "excel",
-        "filtros": {
-            "fecha_inicio": "2025-01-01",
-            "fecha_fin": "2025-12-31"
-        }
-    }
-)
-
-with open("sesiones.xlsx", "wb") as f:
-    f.write(response.content)
-```
-
----
-
-## 🏆 Sistema de Logros
-
-### Logros predefinidos:
-
-| Logro | Tipo | Dificultad | Puntos |
-|-------|------|------------|--------|
-| Velocista Novato | Velocidad | Fácil | 10 |
-| Velocista Experto | Velocidad | Medio | 25 |
-| Rayo | Velocidad | Experto | 100 |
-| Preciso | Precisión | Fácil | 10 |
-| Perfeccionista | Precisión | Difícil | 50 |
-| Primer Paso | Exploración | Fácil | 10 |
-| Explorador | Exploración | Medio | 25 |
-| Conquistador de Santurtzi | Maestría | Difícil | 50 |
-| Visitante Frecuente | Constancia | Medio | 25 |
-| Leyenda de Santurtzi | Coleccionista | Legendario | 250 |
-
-Para crear los logros predefinidos:
 ```bash
+# Ejecutar script de inicialización o llamar al endpoint:
 curl -X POST http://localhost:5000/estadisticas/api/logros/inicializar
 ```
 
 ---
 
-## 🔧 Configuración Avanzada
+## 👥 Autores y Mantenedores
 
-### Añadir nuevos exportadores
-
-```python
-from app.estadisticas.exporters import BaseExporter, ExporterFactory, FormatoExportacion
-
-class PDFExporter(BaseExporter):
-    def get_formato(self):
-        return FormatoExportacion.PDF
-    
-    def get_extension(self):
-        return "pdf"
-    
-    # ... implementar métodos abstractos
-
-# Registrar
-ExporterFactory.registrar(FormatoExportacion.PDF, PDFExporter)
-```
-
-### Añadir nuevos logros
-
-```python
-from app.estadisticas.models import Logro, TipoLogro, NivelDificultad
-
-nuevo_logro = Logro(
-    nombre="Mi Nuevo Logro",
-    nombre_corto="mi_logro",
-    descripcion="Descripción del logro",
-    tipo=TipoLogro.EXPLORACION,
-    dificultad=NivelDificultad.MEDIO,
-    puntos=25,
-    requisitos={"paradas_completadas": 4}
-)
-nuevo_logro.save()
-```
+*   **Gaizka Rodriguez**
+*   **Xiker García**
+*   **Diego Fernandez**
 
 ---
-
-## 📝 Notas para la Evaluación
-
-Este módulo cumple con **todos los requisitos del Nivel Avanzado (10/10)**:
-
-1. ✅ **POO compleja** - Herencia multinivel, polimorfismo, encapsulación, patrones de diseño
-2. ✅ **Exportación múltiple con filtros** - CSV, JSON, Excel con filtros por fecha/usuario/parada
-3. ✅ **ORM SQLAlchemy** - Relaciones complejas, migraciones, importación de datos
-4. ✅ **API REST completa** - Flask Blueprints, múltiples endpoints, paginación
-5. ✅ **Dashboard interactivo** - Chart.js, múltiples pantallas, filtros visuales
-
----
-
-## 👥 Autores
-
-- **Gaizka Rodriguez**
-- **Xiker García**
-- **Diego Fernandez**
-
-**MentxuApp** - Descubre Santurtzi 🌊⚓
+© 2025 MentxuApp Project - Todos los derechos reservados.
