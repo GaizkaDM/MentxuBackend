@@ -100,8 +100,9 @@ def mapa():
     """Mapa interactivo con todas las paradas"""
     paradas = Parada.query.order_by(Parada.orden).all()
     mapbox_token = current_app.config.get('MAPBOX_ACCESS_TOKEN', '')
+    paradas_json = [p.to_dict() for p in paradas]
     
-    return render_template('mapa.html', paradas=paradas, mapbox_token=mapbox_token)
+    return render_template('mapa.html', paradas=paradas, mapbox_token=mapbox_token, paradas_json=paradas_json)
 
 
 @web_bp.route('/usuarios')

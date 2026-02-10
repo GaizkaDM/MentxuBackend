@@ -51,7 +51,6 @@
         border-radius: 20px;
     }
 
-    /* Custom Mapbox marker */
     .custom-marker {
         width: 36px;
         height: 36px;
@@ -138,7 +137,6 @@
     </div>
 
     <div class="row g-4">
-        <!-- Mapa -->
         <div class="col-lg-9">
             <div class="card shadow-sm border-0">
                 <div class="card-body p-0">
@@ -147,7 +145,6 @@
             </div>
         </div>
 
-        <!-- Sidebar con las paradas -->
         <div class="col-lg-3">
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-maritime text-white">
@@ -199,66 +196,62 @@
 <script>
     mapboxgl.accessToken = '{{ mapbox_token }}' || 'pk.eyJ1IjoieGlrZXIiLCJhIjoiY21sZmIxdzY3MDMydTNscHZrNjloYmZ0NiJ9.7lxhQk2bC7cE40R7HLtZnQ';
 
-    const map = new mapboxgl.Map({
+    // Pasar datos de paradas desde Jinja2 a JavaScript usando JSON
+    var paradasData = {{ paradas_json| tojson }};
+
+    // Extraer los datos que necesitamos
+    var paradas_js = [];
+    for (var i = 0; i < paradasData.length; i++) {
+        var p = paradasData[i];
+        paradas_js.push({
+            lat: p.latitud,
+            lng: p.longitud,
+            orden: p.orden,
+            nombre: p.nombre_corto || p.nombre,
+            descripcion: p.descripcion || '',
+            tipo: p.tipo_juego || 'Juego'
+        });
+    }
+
+    var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v12',
-        center: [-3.029, 43.329],  // Santurtzi
+        center: [-3.029, 43.329],
         zoom: 14.5,
         pitch: 30,
         bearing: -10,
         antialias: true
     });
 
-    // Controles
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
     map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
 
-    // Datos de paradas
-    const paradas = [
-        {% for parada in paradas %}
-    {
-        lat: { { parada.latitud } },
-        lng: { { parada.longitud } },
-        orden: { { parada.orden } },
-        nombre: "{{ parada.nombre_corto or parada.nombre }}",
-            descripcion: "{{ parada.descripcion or '' }}",
-                tipo: "{{ parada.tipo_juego or 'Juego' }}"
-    },
-    {% endfor %}
-    ];
+    var markers = [];
 
-    const markers = [];
-    const popups = [];
-
-    map.on('load', () => {
-        // Crear marcadores
-        paradas.forEach((parada, index) => {
-            // Marcador personalizado
-            const el = document.createElement('div');
+    map.on('load', function () {
+        paradas_js.forEach(function (parada, index) {
+            var el = document.createElement('div');
             el.className = 'custom-marker';
             el.textContent = parada.orden;
 
-            // Popup
-            const popup = new mapboxgl.Popup({ offset: 25, closeButton: true })
-                .setHTML(`
-                    <div class="popup-title">${parada.orden}. ${parada.nombre}</div>
-                    ${parada.descripcion ? `<p style="margin: 4px 0; color: #555; font-size: 0.85rem;">${parada.descripcion}</p>` : ''}
-                    <span class="popup-game"><i class="bi bi-controller"></i> ${parada.tipo}</span>
-                    <div class="popup-coords"><i class="bi bi-crosshair"></i> ${parada.lat.toFixed(5)}, ${parada.lng.toFixed(5)}</div>
-                `);
+            var popup = new mapboxgl.Popup({ offset: 25, closeButton: true })
+                .setHTML(
+                    '<div class="popup-title">' + parada.orden + '. ' + parada.nombre + '</div>' +
+                    (parada.descripcion ? '<p style="margin: 4px 0; color: #555; font-size: 0.85rem;">' + parada.descripcion + '</p>' : '') +
+                    '<span class="popup-game"><i class="bi bi-controller"></i> ' + parada.tipo + '</span>' +
+                    '<div class="popup-coords"><i class="bi bi-crosshair"></i> ' + parada.lat.toFixed(5) + ', ' + parada.lng.toFixed(5) + '</div>'
+                );
 
-            const marker = new mapboxgl.Marker(el)
+            var marker = new mapboxgl.Marker(el)
                 .setLngLat([parada.lng, parada.lat])
                 .setPopup(popup)
                 .addTo(map);
 
             markers.push(marker);
-            popups.push(popup);
         });
 
-        // Dibujar ruta entre paradas
-        if (paradas.length > 1) {
-            const coordinates = paradas.map(p => [p.lng, p.lat]);
+        if (paradas_js.length > 1) {
+            var coordinates = paradas_js.map(function (p) { return [p.lng, p.lat]; });
 
             map.addSource('route', {
                 type: 'geojson',
@@ -272,49 +265,30 @@
                 }
             });
 
-            // Línea de fondo (sombra)
             map.addLayer({
                 id: 'route-shadow',
                 type: 'line',
                 source: 'route',
-                layout: {
-                    'line-join': 'round',
-                    'line-cap': 'round'
-                },
-                paint: {
-                    'line-color': '#004a99',
-                    'line-width': 6,
-                    'line-opacity': 0.2
-                }
+                layout: { 'line-join': 'round', 'line-cap': 'round' },
+                paint: { 'line-color': '#004a99', 'line-width': 6, 'line-opacity': 0.2 }
             });
 
-            // Línea principal
             map.addLayer({
                 id: 'route-line',
                 type: 'line',
                 source: 'route',
-                layout: {
-                    'line-join': 'round',
-                    'line-cap': 'round'
-                },
-                paint: {
-                    'line-color': '#0066CC',
-                    'line-width': 3,
-                    'line-opacity': 0.8,
-                    'line-dasharray': [2, 1]
-                }
+                layout: { 'line-join': 'round', 'line-cap': 'round' },
+                paint: { 'line-color': '#0066CC', 'line-width': 3, 'line-opacity': 0.8, 'line-dasharray': [2, 1] }
             });
         }
 
-        // Ajustar la vista para mostrar todas las paradas
-        if (paradas.length > 0) {
-            const bounds = new mapboxgl.LngLatBounds();
-            paradas.forEach(p => bounds.extend([p.lng, p.lat]));
+        if (paradas_js.length > 0) {
+            var bounds = new mapboxgl.LngLatBounds();
+            paradas_js.forEach(function (p) { bounds.extend([p.lng, p.lat]); });
             map.fitBounds(bounds, { padding: 60, maxZoom: 15.5 });
         }
     });
 
-    // Función para volar a una parada desde la sidebar
     function flyToParada(lat, lng, orden) {
         map.flyTo({
             center: [lng, lat],
@@ -324,15 +298,13 @@
             essential: true
         });
 
-        // Abrir popup del marcador correspondiente
-        markers.forEach((marker, i) => {
-            if (paradas[i].orden === orden) {
+        markers.forEach(function (marker, i) {
+            if (paradas_js[i].orden === orden) {
                 marker.togglePopup();
             }
         });
 
-        // Destacar en sidebar
-        document.querySelectorAll('.parada-card').forEach(card => {
+        document.querySelectorAll('.parada-card').forEach(function (card) {
             card.classList.remove('active');
             if (parseInt(card.dataset.orden) === orden) {
                 card.classList.add('active');
