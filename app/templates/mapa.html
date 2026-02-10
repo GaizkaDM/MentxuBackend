@@ -197,7 +197,7 @@
 {% block extra_js %}
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
 <script>
-    mapboxgl.accessToken = '{{ mapbox_token }}';
+    mapboxgl.accessToken = '{{ mapbox_token }}' || 'pk.eyJ1IjoieGlrZXIiLCJhIjoiY21sZmIxdzY3MDMydTNscHZrNjloYmZ0NiJ9.7lxhQk2bC7cE40R7HLtZnQ';
 
     const map = new mapboxgl.Map({
         container: 'map',
