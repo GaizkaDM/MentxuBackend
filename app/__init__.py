@@ -2,14 +2,19 @@ from flask import Flask, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_cors import CORS
-from flask_babel import Babel
 from config import config
 import os
 
 # Inicializar extensiones
 db = SQLAlchemy()
 login_manager = LoginManager()
-babel = Babel()
+
+try:
+    from flask_babel import Babel
+    babel = Babel()
+except ImportError:
+    print("⚠️ Flask-Babel no instalado, traducciones desactivadas")
+    babel = None
 
 def get_locale():
     """Determina el idioma del usuario"""
@@ -156,7 +161,14 @@ def create_app(config_name='default'):
     db.init_app(app)
     login_manager.init_app(app)
     CORS(app)
-    babel.init_app(app, locale_selector=get_locale)
+    
+    # Inicializar Babel si está disponible
+    if babel is not None:
+        babel.init_app(app, locale_selector=get_locale)
+        print("✅ Flask-Babel inicializado")
+    else:
+        # Fallback: _ simplemente devuelve el texto sin traducir
+        app.jinja_env.globals['_'] = lambda x: x
     
     # Configurar login manager
     login_manager.login_view = 'auth.login'
