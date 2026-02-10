@@ -1,0 +1,357 @@
+# Basque (Euskara) translations for MentxuApp.
+# Copyright (C) 2026 MentxuApp
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: MentxuApp 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-10 21:00+0100\n"
+"PO-Revision-Date: 2026-02-10 21:00+0100\n"
+"Last-Translator: Admin\n"
+"Language: eu\n"
+"Language-Team: eu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel\n"
+
+# -- base.html --
+msgid "MentxuApp - Panel de Administración"
+msgstr "MentxuApp - Administrazio Panela"
+
+msgid "Dashboard"
+msgstr "Aginte-mahaia"
+
+msgid "Mapa"
+msgstr "Mapa"
+
+msgid "Usuarios"
+msgstr "Erabiltzaileak"
+
+msgid "Ranking"
+msgstr "Sailkapena"
+
+msgid "Administración"
+msgstr "Administrazioa"
+
+msgid "Salir"
+msgstr "Irten"
+
+msgid "MentxuApp - Descubre Santurtzi"
+msgstr "MentxuApp - Ezagutu Santurtzi"
+
+msgid "Panel de Administración"
+msgstr "Administrazio Panela"
+
+msgid "Idioma"
+msgstr "Hizkuntza"
+
+# -- login.html --
+msgid "Login - MentxuApp"
+msgstr "Saioa hasi - MentxuApp"
+
+msgid "Inicia sesión para acceder"
+msgstr "Hasi saioa sartzeko"
+
+msgid "Usuario"
+msgstr "Erabiltzailea"
+
+msgid "Contraseña"
+msgstr "Pasahitza"
+
+msgid "Iniciar Sesión"
+msgstr "Saioa Hasi"
+
+msgid "Volver al inicio"
+msgstr "Hasierara itzuli"
+
+msgid "Credenciales por defecto:"
+msgstr "Kredentzial lehenetsiak:"
+
+# -- index.html --
+msgid "Descubre Santurtzi a través de un recorrido interactivo con juegos y desafíos. Explora el puerto, la historia y la cultura de esta vibrante ciudad costera."
+msgstr "Ezagutu Santurtzi joko eta erronkekin ibilbide interaktibo baten bidez. Esploratu portua, historia eta kostaldeko hiri bizkor honen kultura."
+
+msgid "Acceder al Panel"
+msgstr "Panelera sartu"
+
+msgid "Estadísticas en Vivo"
+msgstr "Zuzeneko Estatistikak"
+
+msgid "Usuarios Registrados"
+msgstr "Erregistratutako Erabiltzaileak"
+
+msgid "Paradas del Recorrido"
+msgstr "Ibilbideko Geldiuneak"
+
+msgid "Desafíos Completados"
+msgstr "Osatutako Erronkak"
+
+msgid "Características de la App"
+msgstr "Aplikazioaren Ezaugarriak"
+
+msgid "Recorrido Guiado"
+msgstr "Ibilbide Gidatua"
+
+msgid "Sigue un itinerario por las 6 paradas más emblemáticas de Santurtzi."
+msgstr "Jarraitu Santurtziko 6 geldirik esanguratsuenetako ibilbidea."
+
+msgid "Mini-Juegos"
+msgstr "Mini-Jokoak"
+
+msgid "Cada parada incluye un juego educativo único y divertido."
+msgstr "Geldialdi bakoitzak hezkuntza-joko bakarra eta dibertigarria dauka."
+
+msgid "Progreso"
+msgstr "Aurrerapena"
+
+msgid "Completa desafíos y desbloquea nuevas paradas en tu aventura."
+msgstr "Osatu erronkak eta desblokeatu geldialdi berriak zure abenturan."
+
+# -- dashboard.html --
+msgid "Dashboard - MentxuApp"
+msgstr "Aginte-mahaia - MentxuApp"
+
+msgid "Exportar"
+msgstr "Esportatu"
+
+msgid "Paradas Completadas"
+msgstr "Osatutako Geldiuneak"
+
+msgid "En Progreso"
+msgstr "Abian"
+
+msgid "Total Paradas"
+msgstr "Geldiune Guztira"
+
+msgid "Sesiones Hoy"
+msgstr "Gaur Saioak"
+
+msgid "Logros Desbloqueados"
+msgstr "Desblokeatutako Lorpenak"
+
+msgid "Total Intentos"
+msgstr "Saiakerak Guztira"
+
+msgid "Sesiones - Últimos 7 días"
+msgstr "Saioak - Azken 7 egunak"
+
+msgid "Últimos Registros"
+msgstr "Azken Erregistroak"
+
+msgid "Ver todos"
+msgstr "Guztiak ikusi"
+
+msgid "No hay usuarios registrados aún"
+msgstr "Oraindik ez dago erabiltzaile erregistraturik"
+
+msgid "Accesos Rápidos"
+msgstr "Sarbide Azkarrak"
+
+msgid "Admin"
+msgstr "Admin"
+
+msgid "Exportar Datos"
+msgstr "Datuak Esportatu"
+
+msgid "Tipo de datos"
+msgstr "Datu mota"
+
+msgid "Sesiones"
+msgstr "Saioak"
+
+msgid "Historial de Intentos"
+msgstr "Saiakeraren Historia"
+
+msgid "Formato"
+msgstr "Formatua"
+
+msgid "Cancelar"
+msgstr "Utzi"
+
+msgid "Descargar"
+msgstr "Deskargatu"
+
+msgid "Completadas"
+msgstr "Osatuak"
+
+msgid "Error al exportar los datos"
+msgstr "Errorea datuak esportatzean"
+
+msgid "Error de conexión"
+msgstr "Konexio errorea"
+
+# -- admin.html --
+msgid "Administración - MentxuApp"
+msgstr "Administrazioa - MentxuApp"
+
+msgid "Gestión de Paradas"
+msgstr "Geldiuneen Kudeaketa"
+
+msgid "Agregar Parada (Próximamente)"
+msgstr "Geldiunea Gehitu (Laster)"
+
+msgid "Orden"
+msgstr "Ordena"
+
+msgid "Nombre"
+msgstr "Izena"
+
+msgid "Coordenadas"
+msgstr "Koordenatuak"
+
+msgid "Tipo de Juego"
+msgstr "Joko Mota"
+
+msgid "Acciones"
+msgstr "Ekintzak"
+
+msgid "Sin tipo"
+msgstr "Motarik gabe"
+
+msgid "No hay paradas configuradas"
+msgstr "Ez dago geldirik konfiguratuta"
+
+msgid "Referencia API REST"
+msgstr "API REST Erreferentzia"
+
+msgid "Endpoints Disponibles:"
+msgstr "Endpoint Eskuragarriak:"
+
+msgid "Paradas"
+msgstr "Geldiuneak"
+
+msgid "Obtener todas las paradas"
+msgstr "Geldialdi guztiak lortu"
+
+msgid "Obtener una parada específica"
+msgstr "Geldialdi zehatz bat lortu"
+
+msgid "Estadísticas de una parada"
+msgstr "Geldialdi baten estatistikak"
+
+msgid "Listar todos los usuarios"
+msgstr "Erabiltzaile guztiak zerrendatu"
+
+msgid "Registrar nuevo usuario"
+msgstr "Erabiltzaile berria erregistratu"
+
+msgid "Progreso de un usuario"
+msgstr "Erabiltzaile baten aurrerapena"
+
+msgid "Marcar parada como completada"
+msgstr "Geldiunea osatu gisa markatu"
+
+msgid "Estadísticas generales"
+msgstr "Estatistika orokorrak"
+
+# -- mapa.html --
+msgid "Mapa - MentxuApp"
+msgstr "Mapa - MentxuApp"
+
+msgid "Mapa de Paradas"
+msgstr "Geldiuneen Mapa"
+
+msgid "Juego"
+msgstr "Jokoa"
+
+msgid "Sin descripción"
+msgstr "Deskripziorik gabe"
+
+msgid "Tipo"
+msgstr "Mota"
+
+# -- ranking.html --
+msgid "Ranking de Alumnos - MentxuApp"
+msgstr "Ikasleen Sailkapena - MentxuApp"
+
+msgid "Ranking Clasificatorio"
+msgstr "Sailkapen Orokorra"
+
+msgid "Lista de alumnos ordenados por puntuación total obtenida en los mini-juegos."
+msgstr "Ikasleak mini-jokoetan lortutako puntuazio totalaren arabera ordenatuta."
+
+msgid "Posición"
+msgstr "Posizioa"
+
+msgid "Alumno"
+msgstr "Ikaslea"
+
+msgid "Puntuación Total"
+msgstr "Puntuazio Totala"
+
+msgid "paradas"
+msgstr "geldiuneak"
+
+msgid "Todavía no hay puntuaciones registradas. ¡Anima a los alumnos a completar las paradas!"
+msgstr "Oraindik ez dago puntuaziorik erregistratuta. Animatu ikasleak geldiuneak osatzera!"
+
+# -- usuarios.html --
+msgid "Usuarios - MentxuApp"
+msgstr "Erabiltzaileak - MentxuApp"
+
+msgid "Total"
+msgstr "Guztira"
+
+msgid "Nombre Completo"
+msgstr "Izen Osoa"
+
+msgid "Fecha de Registro"
+msgstr "Erregistro Data"
+
+msgid "Ver Progreso"
+msgstr "Aurrerapena Ikusi"
+
+msgid "No hay usuarios registrados todavía"
+msgstr "Oraindik ez dago erabiltzaile erregistraturik"
+
+msgid "Paginación de usuarios"
+msgstr "Erabiltzaileen orrialdekapena"
+
+msgid "Anterior"
+msgstr "Aurrekoa"
+
+msgid "Siguiente"
+msgstr "Hurrengoa"
+
+# -- usuario_detalle.html --
+msgid "Información del Usuario"
+msgstr "Erabiltzailearen Informazioa"
+
+msgid "Registro"
+msgstr "Erregistroa"
+
+msgid "Progreso en el Recorrido"
+msgstr "Ibilbidean Aurrerapena"
+
+msgid "Completada"
+msgstr "Osatua"
+
+msgid "Bloqueada"
+msgstr "Blokeatuta"
+
+msgid "Puntuación"
+msgstr "Puntuazioa"
+
+# -- API route messages --
+msgid "No se proporcionaron datos"
+msgstr "Ez dira datuak eman"
+
+msgid "Nombre y apellido son requeridos"
+msgstr "Izena eta abizena beharrezkoak dira"
+
+msgid "Usuario eliminado correctamente"
+msgstr "Erabiltzailea behar bezala ezabatu da"
+
+msgid "Parada eliminada correctamente"
+msgstr "Geldiunea behar bezala ezabatu da"
+
+msgid "¡Bienvenido al panel de MentxuApp!"
+msgstr "Ongi etorri MentxuApp panelera!"
+
+msgid "Usuario o contraseña incorrectos"
+msgstr "Erabiltzaile edo pasahitz okerra"
+
+msgid "Sesión cerrada correctamente"
+msgstr "Saioa behar bezala itxi da"

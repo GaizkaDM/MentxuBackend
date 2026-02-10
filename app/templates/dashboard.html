@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - MentxuApp{% endblock %}
+{% block title %}{{ _('Dashboard - MentxuApp') }}{% endblock %}
 
 {% block content %}
 <div class="container-fluid py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>
-            <i class="bi bi-speedometer2"></i> Dashboard
+            <i class="bi bi-speedometer2"></i> {{ _('Dashboard') }}
         </h1>
         <div>
             <a href="{{ url_for('web.ranking') }}" class="btn btn-outline-primary me-2">
-                <i class="bi bi-trophy"></i> Ranking
+                <i class="bi bi-trophy"></i> {{ _('Ranking') }}
             </a>
             <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exportModal">
-                <i class="bi bi-download"></i> Exportar
+                <i class="bi bi-download"></i> {{ _('Exportar') }}
             </button>
         </div>
     </div>
@@ -25,7 +25,7 @@
                 <div class="stat-card-body">
                     <i class="bi bi-people-fill"></i>
                     <h3>{{ total_usuarios }}</h3>
-                    <p>Usuarios Registrados</p>
+                    <p>{{ _('Usuarios Registrados') }}</p>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                 <div class="stat-card-body">
                     <i class="bi bi-check-circle-fill"></i>
                     <h3>{{ progreso_completado }}</h3>
-                    <p>Paradas Completadas</p>
+                    <p>{{ _('Paradas Completadas') }}</p>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                 <div class="stat-card-body">
                     <i class="bi bi-play-circle-fill"></i>
                     <h3>{{ progreso_activo }}</h3>
-                    <p>En Progreso</p>
+                    <p>{{ _('En Progreso') }}</p>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
                 <div class="stat-card-body">
                     <i class="bi bi-geo-alt-fill"></i>
                     <h3>{{ total_paradas }}</h3>
-                    <p>Total Paradas</p>
+                    <p>{{ _('Total Paradas') }}</p>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
                 <div class="stat-card-body">
                     <i class="bi bi-phone-fill"></i>
                     <h3>{{ sesiones_hoy }}</h3>
-                    <p>Sesiones Hoy</p>
+                    <p>{{ _('Sesiones Hoy') }}</p>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                 <div class="stat-card-body">
                     <i class="bi bi-trophy-fill"></i>
                     <h3>{{ logros_desbloqueados }}</h3>
-                    <p>Logros Desbloqueados</p>
+                    <p>{{ _('Logros Desbloqueados') }}</p>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
                 <div class="stat-card-body">
                     <i class="bi bi-joystick"></i>
                     <h3>{{ total_intentos }}</h3>
-                    <p>Total Intentos</p>
+                    <p>{{ _('Total Intentos') }}</p>
                 </div>
             </div>
         </div>
@@ -95,7 +95,7 @@
             <div class="card shadow-sm h-100">
                 <div class="card-header bg-maritime text-white">
                     <h5 class="mb-0">
-                        <i class="bi bi-bar-chart-fill"></i> Paradas Completadas
+                        <i class="bi bi-bar-chart-fill"></i> {{ _('Paradas Completadas') }}
                     </h5>
                 </div>
                 <div class="card-body">
@@ -109,7 +109,7 @@
             <div class="card shadow-sm h-100">
                 <div class="card-header bg-maritime text-white">
                     <h5 class="mb-0">
-                        <i class="bi bi-graph-up"></i> Sesiones - Últimos 7 días
+                        <i class="bi bi-graph-up"></i> {{ _('Sesiones - Últimos 7 días') }}
                     </h5>
                 </div>
                 <div class="card-body">
@@ -125,9 +125,9 @@
             <div class="card shadow-sm">
                 <div class="card-header bg-maritime text-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">
-                        <i class="bi bi-clock-history"></i> Últimos Registros
+                        <i class="bi bi-clock-history"></i> {{ _('Últimos Registros') }}
                     </h5>
-                    <a href="{{ url_for('web.usuarios') }}" class="btn btn-sm btn-light">Ver todos</a>
+                    <a href="{{ url_for('web.usuarios') }}" class="btn btn-sm btn-light">{{ _('Ver todos') }}</a>
                 </div>
                 <div class="card-body p-0">
                     <div class="list-group list-group-flush">
@@ -171,7 +171,7 @@
                             </div>
                         </a>
                         {% else %}
-                        <p class="text-muted text-center py-3">No hay usuarios registrados aún</p>
+                        <p class="text-muted text-center py-3">{{ _('No hay usuarios registrados aún') }}</p>
                         {% endfor %}
                     </div>
                 </div>
@@ -183,7 +183,7 @@
             <div class="card shadow-sm">
                 <div class="card-header bg-maritime text-white">
                     <h5 class="mb-0">
-                        <i class="bi bi-lightning-fill"></i> Accesos Rápidos
+                        <i class="bi bi-lightning-fill"></i> {{ _('Accesos Rápidos') }}
                     </h5>
                 </div>
                 <div class="card-body">
@@ -191,25 +191,25 @@
                         <div class="col-6">
                             <a href="{{ url_for('web.usuarios') }}" class="btn btn-outline-primary w-100 py-3">
                                 <i class="bi bi-people fs-4 d-block mb-2"></i>
-                                Usuarios
+                                {{ _('Usuarios') }}
                             </a>
                         </div>
                         <div class="col-6">
                             <a href="{{ url_for('web.ranking') }}" class="btn btn-outline-warning w-100 py-3">
                                 <i class="bi bi-trophy fs-4 d-block mb-2"></i>
-                                Ranking
+                                {{ _('Ranking') }}
                             </a>
                         </div>
                         <div class="col-6">
                             <a href="{{ url_for('web.mapa') }}" class="btn btn-outline-info w-100 py-3">
                                 <i class="bi bi-map fs-4 d-block mb-2"></i>
-                                Mapa
+                                {{ _('Mapa') }}
                             </a>
                         </div>
                         <div class="col-6">
                             <a href="{{ url_for('web.admin') }}" class="btn btn-outline-danger w-100 py-3">
                                 <i class="bi bi-gear fs-4 d-block mb-2"></i>
-                                Admin
+                                {{ _('Admin') }}
                             </a>
                         </div>
                     </div>
@@ -224,20 +224,20 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="bi bi-download"></i> Exportar Datos</h5>
+                <h5 class="modal-title"><i class="bi bi-download"></i> {{ _('Exportar Datos') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label class="form-label">Tipo de datos</label>
+                    <label class="form-label">{{ _('Tipo de datos') }}</label>
                     <select class="form-select" id="exportTipo">
-                        <option value="usuarios">Usuarios</option>
-                        <option value="sesiones">Sesiones</option>
-                        <option value="intentos">Historial de Intentos</option>
+                        <option value="usuarios">{{ _('Usuarios') }}</option>
+                        <option value="sesiones">{{ _('Sesiones') }}</option>
+                        <option value="intentos">{{ _('Historial de Intentos') }}</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Formato</label>
+                    <label class="form-label">{{ _('Formato') }}</label>
                     <select class="form-select" id="exportFormato">
                         <option value="csv">CSV</option>
                         <option value="json">JSON</option>
@@ -246,9 +246,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancelar') }}</button>
                 <button type="button" class="btn btn-primary" onclick="exportarDatos()">
-                    <i class="bi bi-download"></i> Descargar
+                    <i class="bi bi-download"></i> {{ _('Descargar') }}
                 </button>
             </div>
         </div>
@@ -267,7 +267,7 @@
         {% endfor %}
         ],
     datasets: [{
-        label: 'Completadas',
+        label: '{{ _("Completadas") }}',
         data: [
             {% for nombre, total in stats_paradas %}
     {{ total }},
@@ -308,7 +308,7 @@
     const sesionesData = {
         labels: [{% for dia in ultimos_7_dias %}'{{ dia.fecha }}', {% endfor %}],
     datasets: [{
-        label: 'Sesiones',
+        label: '{{ _("Sesiones") }}',
         data: [{% for dia in ultimos_7_dias %}{{ dia.sesiones }}, {% endfor %}],
         borderColor: 'rgb(102, 126, 234)',
             backgroundColor: 'rgba(102, 126, 234, 0.1)',
@@ -356,10 +356,10 @@
 
                 bootstrap.Modal.getInstance(document.getElementById('exportModal')).hide();
             } else {
-                alert('Error al exportar los datos');
+                alert('{{ _("Error al exportar los datos") }}');
             }
         } catch (e) {
-            alert('Error de conexión');
+            alert('{{ _("Error de conexión") }}');
         }
     }
 </script>

@@ -1,0 +1,361 @@
+# Spanish translations for MentxuApp.
+# Copyright (C) 2026 MentxuApp
+# This file is distributed under the same license as the MentxuApp project.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: MentxuApp 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-10 21:00+0100\n"
+"PO-Revision-Date: 2026-02-10 21:00+0100\n"
+"Last-Translator: Admin\n"
+"Language: es\n"
+"Language-Team: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel\n"
+
+# -- base.html --
+msgid "MentxuApp - Panel de Administración"
+msgstr "MentxuApp - Panel de Administración"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Mapa"
+msgstr "Mapa"
+
+msgid "Usuarios"
+msgstr "Usuarios"
+
+msgid "Ranking"
+msgstr "Ranking"
+
+msgid "Administración"
+msgstr "Administración"
+
+msgid "Salir"
+msgstr "Salir"
+
+msgid "MentxuApp - Descubre Santurtzi"
+msgstr "MentxuApp - Descubre Santurtzi"
+
+msgid "Panel de Administración"
+msgstr "Panel de Administración"
+
+msgid "Idioma"
+msgstr "Idioma"
+
+# -- login.html --
+msgid "Login - MentxuApp"
+msgstr "Login - MentxuApp"
+
+msgid "Inicia sesión para acceder"
+msgstr "Inicia sesión para acceder"
+
+msgid "Usuario"
+msgstr "Usuario"
+
+msgid "Contraseña"
+msgstr "Contraseña"
+
+msgid "Iniciar Sesión"
+msgstr "Iniciar Sesión"
+
+msgid "Volver al inicio"
+msgstr "Volver al inicio"
+
+msgid "Credenciales por defecto:"
+msgstr "Credenciales por defecto:"
+
+# -- index.html --
+msgid "MentxuApp - Descubre Santurtzi"
+msgstr "MentxuApp - Descubre Santurtzi"
+
+msgid "Descubre Santurtzi a través de un recorrido interactivo con juegos y desafíos. Explora el puerto, la historia y la cultura de esta vibrante ciudad costera."
+msgstr "Descubre Santurtzi a través de un recorrido interactivo con juegos y desafíos. Explora el puerto, la historia y la cultura de esta vibrante ciudad costera."
+
+msgid "Acceder al Panel"
+msgstr "Acceder al Panel"
+
+msgid "Estadísticas en Vivo"
+msgstr "Estadísticas en Vivo"
+
+msgid "Usuarios Registrados"
+msgstr "Usuarios Registrados"
+
+msgid "Paradas del Recorrido"
+msgstr "Paradas del Recorrido"
+
+msgid "Desafíos Completados"
+msgstr "Desafíos Completados"
+
+msgid "Características de la App"
+msgstr "Características de la App"
+
+msgid "Recorrido Guiado"
+msgstr "Recorrido Guiado"
+
+msgid "Sigue un itinerario por las 6 paradas más emblemáticas de Santurtzi."
+msgstr "Sigue un itinerario por las 6 paradas más emblemáticas de Santurtzi."
+
+msgid "Mini-Juegos"
+msgstr "Mini-Juegos"
+
+msgid "Cada parada incluye un juego educativo único y divertido."
+msgstr "Cada parada incluye un juego educativo único y divertido."
+
+msgid "Progreso"
+msgstr "Progreso"
+
+msgid "Completa desafíos y desbloquea nuevas paradas en tu aventura."
+msgstr "Completa desafíos y desbloquea nuevas paradas en tu aventura."
+
+# -- dashboard.html --
+msgid "Dashboard - MentxuApp"
+msgstr "Dashboard - MentxuApp"
+
+msgid "Exportar"
+msgstr "Exportar"
+
+msgid "Paradas Completadas"
+msgstr "Paradas Completadas"
+
+msgid "En Progreso"
+msgstr "En Progreso"
+
+msgid "Total Paradas"
+msgstr "Total Paradas"
+
+msgid "Sesiones Hoy"
+msgstr "Sesiones Hoy"
+
+msgid "Logros Desbloqueados"
+msgstr "Logros Desbloqueados"
+
+msgid "Total Intentos"
+msgstr "Total Intentos"
+
+msgid "Sesiones - Últimos 7 días"
+msgstr "Sesiones - Últimos 7 días"
+
+msgid "Últimos Registros"
+msgstr "Últimos Registros"
+
+msgid "Ver todos"
+msgstr "Ver todos"
+
+msgid "No hay usuarios registrados aún"
+msgstr "No hay usuarios registrados aún"
+
+msgid "Accesos Rápidos"
+msgstr "Accesos Rápidos"
+
+msgid "Admin"
+msgstr "Admin"
+
+msgid "Exportar Datos"
+msgstr "Exportar Datos"
+
+msgid "Tipo de datos"
+msgstr "Tipo de datos"
+
+msgid "Sesiones"
+msgstr "Sesiones"
+
+msgid "Historial de Intentos"
+msgstr "Historial de Intentos"
+
+msgid "Formato"
+msgstr "Formato"
+
+msgid "Cancelar"
+msgstr "Cancelar"
+
+msgid "Descargar"
+msgstr "Descargar"
+
+msgid "Completadas"
+msgstr "Completadas"
+
+msgid "Error al exportar los datos"
+msgstr "Error al exportar los datos"
+
+msgid "Error de conexión"
+msgstr "Error de conexión"
+
+# -- admin.html --
+msgid "Administración - MentxuApp"
+msgstr "Administración - MentxuApp"
+
+msgid "Gestión de Paradas"
+msgstr "Gestión de Paradas"
+
+msgid "Agregar Parada (Próximamente)"
+msgstr "Agregar Parada (Próximamente)"
+
+msgid "Orden"
+msgstr "Orden"
+
+msgid "Nombre"
+msgstr "Nombre"
+
+msgid "Coordenadas"
+msgstr "Coordenadas"
+
+msgid "Tipo de Juego"
+msgstr "Tipo de Juego"
+
+msgid "Acciones"
+msgstr "Acciones"
+
+msgid "Sin tipo"
+msgstr "Sin tipo"
+
+msgid "No hay paradas configuradas"
+msgstr "No hay paradas configuradas"
+
+msgid "Referencia API REST"
+msgstr "Referencia API REST"
+
+msgid "Endpoints Disponibles:"
+msgstr "Endpoints Disponibles:"
+
+msgid "Paradas"
+msgstr "Paradas"
+
+msgid "Obtener todas las paradas"
+msgstr "Obtener todas las paradas"
+
+msgid "Obtener una parada específica"
+msgstr "Obtener una parada específica"
+
+msgid "Estadísticas de una parada"
+msgstr "Estadísticas de una parada"
+
+msgid "Listar todos los usuarios"
+msgstr "Listar todos los usuarios"
+
+msgid "Registrar nuevo usuario"
+msgstr "Registrar nuevo usuario"
+
+msgid "Progreso de un usuario"
+msgstr "Progreso de un usuario"
+
+msgid "Marcar parada como completada"
+msgstr "Marcar parada como completada"
+
+msgid "Estadísticas generales"
+msgstr "Estadísticas generales"
+
+# -- mapa.html --
+msgid "Mapa - MentxuApp"
+msgstr "Mapa - MentxuApp"
+
+msgid "Mapa de Paradas"
+msgstr "Mapa de Paradas"
+
+msgid "Juego"
+msgstr "Juego"
+
+msgid "Sin descripción"
+msgstr "Sin descripción"
+
+msgid "Tipo"
+msgstr "Tipo"
+
+# -- ranking.html --
+msgid "Ranking de Alumnos - MentxuApp"
+msgstr "Ranking de Alumnos - MentxuApp"
+
+msgid "Ranking Clasificatorio"
+msgstr "Ranking Clasificatorio"
+
+msgid "Lista de alumnos ordenados por puntuación total obtenida en los mini-juegos."
+msgstr "Lista de alumnos ordenados por puntuación total obtenida en los mini-juegos."
+
+msgid "Posición"
+msgstr "Posición"
+
+msgid "Alumno"
+msgstr "Alumno"
+
+msgid "Puntuación Total"
+msgstr "Puntuación Total"
+
+msgid "paradas"
+msgstr "paradas"
+
+msgid "Todavía no hay puntuaciones registradas. ¡Anima a los alumnos a completar las paradas!"
+msgstr "Todavía no hay puntuaciones registradas. ¡Anima a los alumnos a completar las paradas!"
+
+# -- usuarios.html --
+msgid "Usuarios - MentxuApp"
+msgstr "Usuarios - MentxuApp"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Nombre Completo"
+msgstr "Nombre Completo"
+
+msgid "Fecha de Registro"
+msgstr "Fecha de Registro"
+
+msgid "Ver Progreso"
+msgstr "Ver Progreso"
+
+msgid "No hay usuarios registrados todavía"
+msgstr "No hay usuarios registrados todavía"
+
+msgid "Paginación de usuarios"
+msgstr "Paginación de usuarios"
+
+msgid "Anterior"
+msgstr "Anterior"
+
+msgid "Siguiente"
+msgstr "Siguiente"
+
+# -- usuario_detalle.html --
+msgid "Información del Usuario"
+msgstr "Información del Usuario"
+
+msgid "Registro"
+msgstr "Registro"
+
+msgid "Progreso en el Recorrido"
+msgstr "Progreso en el Recorrido"
+
+msgid "Completada"
+msgstr "Completada"
+
+msgid "Bloqueada"
+msgstr "Bloqueada"
+
+msgid "Puntuación"
+msgstr "Puntuación"
+
+# -- API route messages --
+msgid "No se proporcionaron datos"
+msgstr "No se proporcionaron datos"
+
+msgid "Nombre y apellido son requeridos"
+msgstr "Nombre y apellido son requeridos"
+
+msgid "Usuario eliminado correctamente"
+msgstr "Usuario eliminado correctamente"
+
+msgid "Parada eliminada correctamente"
+msgstr "Parada eliminada correctamente"
+
+msgid "¡Bienvenido al panel de MentxuApp!"
+msgstr "¡Bienvenido al panel de MentxuApp!"
+
+msgid "Usuario o contraseña incorrectos"
+msgstr "Usuario o contraseña incorrectos"
+
+msgid "Sesión cerrada correctamente"
+msgstr "Sesión cerrada correctamente"

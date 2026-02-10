@@ -1,13 +1,28 @@
-from flask import Flask
+from flask import Flask, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_cors import CORS
+from flask_babel import Babel
 from config import config
 import os
 
 # Inicializar extensiones
 db = SQLAlchemy()
 login_manager = LoginManager()
+babel = Babel()
+
+def get_locale():
+    """Determina el idioma del usuario"""
+    # 1. Parámetro URL ?lang=xx
+    lang = request.args.get('lang')
+    if lang and lang in ['es', 'eu', 'en']:
+        session['lang'] = lang
+        return lang
+    # 2. Sesión guardada
+    if 'lang' in session:
+        return session['lang']
+    # 3. Accept-Language header
+    return request.accept_languages.best_match(['es', 'eu', 'en'], default='es')
 
 def init_database(app):
     """Inicializa la base de datos si no existe"""
@@ -141,6 +156,7 @@ def create_app(config_name='default'):
     db.init_app(app)
     login_manager.init_app(app)
     CORS(app)
+    babel.init_app(app, locale_selector=get_locale)
     
     # Configurar login manager
     login_manager.login_view = 'auth.login'

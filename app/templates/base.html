@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}MentxuApp - Panel de Administración{% endblock %}</title>
-    
+    <title>{% block title %}{{ _('MentxuApp - Panel de Administración') }}{% endblock %}</title>
+
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    
+
     {% block extra_css %}{% endblock %}
 </head>
+
 <body>
     <!-- Navegación -->
     {% if current_user.is_authenticated %}
@@ -31,31 +33,43 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('web.dashboard') }}">
-                            <i class="bi bi-speedometer2"></i> Dashboard
+                            <i class="bi bi-speedometer2"></i> {{ _('Dashboard') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('web.mapa') }}">
-                            <i class="bi bi-map"></i> Mapa
+                            <i class="bi bi-map"></i> {{ _('Mapa') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('web.usuarios') }}">
-                            <i class="bi bi-people"></i> Usuarios
+                            <i class="bi bi-people"></i> {{ _('Usuarios') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('web.ranking') }}">
-                            <i class="bi bi-trophy"></i> Ranking
+                            <i class="bi bi-trophy"></i> {{ _('Ranking') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('web.admin') }}">
-                            <i class="bi bi-gear"></i> Administración
+                            <i class="bi bi-gear"></i> {{ _('Administración') }}
                         </a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
+                    <!-- Selector de Idioma -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownLanguage" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-translate"></i> {{ _('Idioma') }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownLanguage">
+                            <li><a class="dropdown-item" href="?lang=es">🇪🇸 Español</a></li>
+                            <li><a class="dropdown-item" href="?lang=eu">🏴 Euskara</a></li>
+                            <li><a class="dropdown-item" href="?lang=en">🇬🇧 English</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <span class="nav-link">
                             <i class="bi bi-person-circle"></i> {{ current_user.username }}
@@ -63,7 +77,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('auth.logout') }}">
-                            <i class="bi bi-box-arrow-right"></i> Salir
+                            <i class="bi bi-box-arrow-right"></i> {{ _('Salir') }}
                         </a>
                     </li>
                 </ul>
@@ -74,16 +88,17 @@
 
     <!-- Mensajes Flash -->
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="container mt-3">
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+    {% if messages %}
+    <div class="container mt-3">
+        {% for category, message in messages %}
+        <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show"
+            role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     {% endwith %}
 
     <!-- Contenido Principal -->
@@ -95,9 +110,9 @@
     <footer class="footer mt-5 py-4 bg-maritime text-white">
         <div class="container text-center">
             <p class="mb-0">
-                <i class="bi bi-geo-alt"></i> MentxuApp - Descubre Santurtzi
+                <i class="bi bi-geo-alt"></i> {{ _('MentxuApp - Descubre Santurtzi') }}
             </p>
-            <small class="text-white-50">Panel de Administración | © 2026</small>
+            <small class="text-white-50">{{ _('Panel de Administración') }} | © 2026</small>
         </div>
     </footer>
 
@@ -105,4 +120,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     {% block extra_js %}{% endblock %}
 </body>
+
 </html>

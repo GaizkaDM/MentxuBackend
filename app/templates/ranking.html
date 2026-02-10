@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}Ranking de Alumnos - MentxuApp{% endblock %}
+{% block title %}{{ _('Ranking de Alumnos - MentxuApp') }}{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
     <div class="row mb-4 align-items-center">
         <div class="col">
-            <h1 class="h2"><i class="bi bi-trophy text-warning"></i> Ranking Clasificatorio</h1>
-            <p class="text-muted">Lista de alumnos ordenados por puntuación total obtenida en los mini-juegos.</p>
+            <h1 class="h2"><i class="bi bi-trophy text-warning"></i> {{ _('Ranking Clasificatorio') }}</h1>
+            <p class="text-muted">{{ _('Lista de alumnos ordenados por puntuación total obtenida en los mini-juegos.')
+                }}</p>
         </div>
     </div>
 
@@ -17,10 +18,10 @@
                 <table class="table table-hover align-middle mb-0">
                     <thead class="bg-light">
                         <tr>
-                            <th class="px-4 py-3" style="width: 100px;">Posición</th>
-                            <th class="py-3">Alumno</th>
-                            <th class="py-3 text-center">Paradas Completadas</th>
-                            <th class="py-3 text-end px-4">Puntuación Total</th>
+                            <th class="px-4 py-3" style="width: 100px;">{{ _('Posición') }}</th>
+                            <th class="py-3">{{ _('Alumno') }}</th>
+                            <th class="py-3 text-center">{{ _('Paradas Completadas') }}</th>
+                            <th class="py-3 text-end px-4">{{ _('Puntuación Total') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,7 +83,7 @@
                             </td>
                             <td class="text-center">
                                 <span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2">
-                                    {{ row.paradas_completadas }} / 6 paradas
+                                    {{ row.paradas_completadas }} / 6 {{ _('paradas') }}
                                 </span>
                             </td>
                             <td class="text-end px-4">
@@ -96,7 +97,8 @@
                         <tr>
                             <td colspan="4" class="text-center py-5 text-muted">
                                 <i class="bi bi-info-circle h2 d-block mb-3"></i>
-                                Todavía no hay puntuaciones registradas. ¡Anima a los alumnos a completar las paradas!
+                                {{ _('Todavía no hay puntuaciones registradas. ¡Anima a los alumnos a completar las
+                                paradas!') }}
                             </td>
                         </tr>
                         {% endif %}

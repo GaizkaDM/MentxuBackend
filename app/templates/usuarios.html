@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}Usuarios - MentxuApp{% endblock %}
+{% block title %}{{ _('Usuarios - MentxuApp') }}{% endblock %}
 
 {% block content %}
 <div class="container-fluid py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="mb-0">
-            <i class="bi bi-people"></i> Usuarios Registrados
+            <i class="bi bi-people"></i> {{ _('Usuarios Registrados') }}
         </h1>
-        <span class="badge bg-maritime fs-6">Total: {{ usuarios.total }}</span>
+        <span class="badge bg-maritime fs-6">{{ _('Total') }}: {{ usuarios.total }}</span>
     </div>
 
     <div class="card shadow-sm">
@@ -18,10 +18,10 @@
                     <thead class="table-light">
                         <tr>
                             <th>ID</th>
-                            <th>Nombre Completo</th>
-                            <th>Fecha de Registro</th>
+                            <th>{{ _('Nombre Completo') }}</th>
+                            <th>{{ _('Fecha de Registro') }}</th>
                             <th>Device ID</th>
-                            <th>Acciones</th>
+                            <th>{{ _('Acciones') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,7 +71,7 @@
                             <td>
                                 <a href="{{ url_for('web.usuario_detalle', id=usuario.id) }}"
                                     class="btn btn-sm btn-maritime">
-                                    <i class="bi bi-eye"></i> Ver Progreso
+                                    <i class="bi bi-eye"></i> {{ _('Ver Progreso') }}
                                 </a>
                             </td>
                         </tr>
@@ -79,7 +79,7 @@
                         <tr>
                             <td colspan="5" class="text-center text-muted py-5">
                                 <i class="bi bi-inbox" style="font-size: 3rem;"></i>
-                                <p class="mt-3">No hay usuarios registrados todavía</p>
+                                <p class="mt-3">{{ _('No hay usuarios registrados todavía') }}</p>
                             </td>
                         </tr>
                         {% endfor %}
@@ -89,11 +89,12 @@
 
             <!-- Paginación -->
             {% if usuarios.pages > 1 %}
-            <nav aria-label="Paginación de usuarios">
+            <nav aria-label="{{ _('Paginación de usuarios') }}">
                 <ul class="pagination justify-content-center mt-4">
                     {% if usuarios.has_prev %}
                     <li class="page-item">
-                        <a class="page-link" href="{{ url_for('web.usuarios', page=usuarios.prev_num) }}">Anterior</a>
+                        <a class="page-link" href="{{ url_for('web.usuarios', page=usuarios.prev_num) }}">{{
+                            _('Anterior') }}</a>
                     </li>
                     {% endif %}
 
@@ -110,7 +111,8 @@
 
                     {% if usuarios.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="{{ url_for('web.usuarios', page=usuarios.next_num) }}">Siguiente</a>
+                        <a class="page-link" href="{{ url_for('web.usuarios', page=usuarios.next_num) }}">{{
+                            _('Siguiente') }}</a>
                     </li>
                     {% endif %}
                 </ul>

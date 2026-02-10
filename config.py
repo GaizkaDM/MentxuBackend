@@ -27,6 +27,11 @@ class Config:
     # Admin
     ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME') or 'admin'
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'admin123'
+    
+    # Babel / i18n
+    BABEL_DEFAULT_LOCALE = 'es'
+    BABEL_SUPPORTED_LOCALES = ['es', 'eu', 'en']
+    BABEL_TRANSLATION_DIRECTORIES = os.path.join(BASE_DIR, 'app', 'translations')
 
 
 class DevelopmentConfig(Config):
