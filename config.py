@@ -21,8 +21,8 @@ class Config:
         'sqlite:///' + os.path.join(BASE_DIR, 'instance', 'mentxuapp.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
-    # Google Maps
-    GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY') or ''
+    # Mapbox
+    MAPBOX_ACCESS_TOKEN = os.environ.get('MAPBOX_ACCESS_TOKEN') or ''
     
     # Admin
     ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME') or 'admin'

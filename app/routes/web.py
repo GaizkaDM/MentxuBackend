@@ -99,9 +99,9 @@ def dashboard():
 def mapa():
     """Mapa interactivo con todas las paradas"""
     paradas = Parada.query.order_by(Parada.orden).all()
-    api_key = current_app.config.get('GOOGLE_MAPS_API_KEY', '')
+    mapbox_token = current_app.config.get('MAPBOX_ACCESS_TOKEN', '')
     
-    return render_template('mapa.html', paradas=paradas, api_key=api_key)
+    return render_template('mapa.html', paradas=paradas, mapbox_token=mapbox_token)
 
 
 @web_bp.route('/usuarios')
